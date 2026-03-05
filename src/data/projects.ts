@@ -37,6 +37,25 @@ export const projects: Project[] = [
     mediaLabel: "Checkers game board",
   },
   {
+    id: "tactical-tank-game",
+    name: "Tactical Tank Game",
+    role: "Solo Developer",
+    period: "2024 – 2025",
+    techStack: ["Java 8", "Processing 3.3.7", "Gradle 8.5", "2D game", "Turn-based"],
+    shortDescription:
+      "2D tactical tank game built with Java and the Processing library. Turn-based gameplay on a grid-based board with configurable levels, scoreboard, parachute drops, and a fixed 864×640 window at 30 FPS.",
+    highlights: [
+      "Implemented tank gameplay (move, aim, fire) with turn-based rounds; levels and entities loaded from config (e.g. config.json).",
+      "Used processing.core and processing.data only (no JavaFX, AWT, or JOGL); Java 8 toolchain with Gradle wrapper for assignment compliance.",
+      "Added scoreboard per player/character, limited parachute drops, and macOS EAWT stubs for Java 9+ compatibility when needed.",
+    ],
+    link: "https://github.com/bhakthisalimath/tanks-artillery-game",
+    bookmarkLabel: "Tank Game",
+    accent: "#f59e0b",
+    mediaType: "image",
+    mediaLabel: "Tactical tank game",
+  },
+  {
     id: "student-record-bst",
     name: "Student Record Management System (BST)",
     role: "Solo Developer",
