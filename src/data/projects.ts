@@ -208,6 +208,25 @@ export const projects: Project[] = [
     mediaLabel: "StdChip assembler and emulator",
   },
   {
+    id: "trivia-net",
+    name: "Trivia.NET — Distributed Trivia Platform",
+    role: "Solo Developer",
+    period: "2024 – 2025",
+    techStack: ["Python 3.8+", "TCP", "JSON", "threading", "selectors", "Optional: Ollama/requests"],
+    shortDescription:
+      "Multiplayer network trivia: central TCP server, multiple clients. Human, auto (built-in solver), and AI (Ollama) modes. Timed questions (math, Roman numerals, CIDR), live leaderboard, config-driven (server_config.json, client_*.json).",
+    highlights: [
+      "Server: single TCP socket, selectors, newline-delimited JSON (HI, READY, QUESTION, RESULT, LEADERBOARD, FINISHED); game loop waits for required players, runs question types in order, checks answers via internal solvers.",
+      "Clients: CONNECT <host>:<port>; receiver thread; modes you (human input), auto (solver), ai (Ollama API); requests imported only in AI path so you/auto need zero pip installs.",
+      "questions.py: math expressions, Roman numerals, usable IPs in subnet, network/broadcast address; config-driven prompts and timing; documented for INFO1113/COMP9003 at University of Sydney.",
+    ],
+    link: "https://github.com/bhakthisalimath/Trivia.NET",
+    bookmarkLabel: "Trivia.NET",
+    accent: "#2563eb",
+    mediaType: "image",
+    mediaLabel: "Distributed trivia game",
+  },
+  {
     id: "bit-state-manager",
     name: "BitStateManager — Naughty Bits CLI",
     role: "Solo Developer",
