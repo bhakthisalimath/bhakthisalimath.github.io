@@ -189,6 +189,25 @@ export const projects: Project[] = [
     mediaLabel: "Diabetes risk prediction",
   },
   {
+    id: "stdchip-simulator",
+    name: "StdChip Architecture Simulator",
+    role: "Solo Developer",
+    period: "2024 – 2025",
+    techStack: ["Python 3.6+", "Assembler", "Emulator", "Custom ISA", "Standard library only"],
+    shortDescription:
+      "Custom instruction-set architecture with a two-stage toolchain: assembler (assembly → binary or hex listing) and emulator (load and execute). 11 opcodes, labels, multi-base literals, READ/PUT I/O, CALL subprocess; 256-byte memory, zero dependencies.",
+    highlights: [
+      "Full ISA: SET, MOV, ADD, SUB, READ, PUT, JMP, JEQ, JGT, CALL, EXIT; assembly with :labels:, // comments, 0x/0b/0o/decimal/'c' literals; binary format (magic + 4-byte instructions); assembler two-pass (labels → indices, encode).",
+      "Emulator: 256-byte memory, fetch–execute loop; READ N/S from stdin, PUT N (b/o/d/h) or S to stdout; CALL runs emulator on path in memory via fork/exec, stores exit code; EXIT with code from memory.",
+      "Pure Python, standard library only; --hex for human-readable listing; documented for INFO1113/COMP9003 at University of Sydney.",
+    ],
+    link: "https://github.com/bhakthisalimath/stdchip-architecture-simulator",
+    bookmarkLabel: "StdChip Simulator",
+    accent: "#7c3aed",
+    mediaType: "image",
+    mediaLabel: "StdChip assembler and emulator",
+  },
+  {
     id: "bit-state-manager",
     name: "BitStateManager — Naughty Bits CLI",
     role: "Solo Developer",
