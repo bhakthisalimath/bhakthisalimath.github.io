@@ -131,6 +131,25 @@ export const projects: Project[] = [
     mediaType: "image",
     mediaLabel: "Holiday booking app",
   },
+  {
+    id: "vsas",
+    name: "Virtual Scroll Access System (VSAS)",
+    role: "Group Project (Contributor)",
+    period: "2024 – 2025",
+    techStack: ["Java 21", "Gradle", "SQLite", "BCrypt", "JUnit 5", "JaCoCo", "Web app"],
+    shortDescription:
+      "Web-based document management system for uploading, organizing, searching, and downloading PDF scrolls with role-based authentication and admin controls. Includes dashboards, profile management, and download tracking analytics.",
+    highlights: [
+      "Built end-to-end PDF document workflows: upload, browse, preview, download, and filtering/search across scroll metadata with guest access for public documents.",
+      "Implemented secure authentication with BCrypt password hashing and role-based access (admin, regular user, guest) with dedicated dashboards and admin user management.",
+      "Added automated tests (JUnit) with JaCoCo coverage reporting (≥ 75% target) and Gradle wrapper builds; SQLite database initializes on server start.",
+    ],
+    link: "https://github.com/bhakthisalimath/Virtual-Scroll-Access-System-VSAS-",
+    bookmarkLabel: "VSAS",
+    accent: "#64748b",
+    mediaType: "image",
+    mediaLabel: "VSAS document portal",
+  },
 ];
 
 export const projectsCopy: {
