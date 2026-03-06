@@ -75,6 +75,25 @@ export const projects: Project[] = [
     mediaLabel: "Minesweeper game board",
   },
   {
+    id: "inkball",
+    name: "Inkball — Physics Puzzle Game",
+    role: "Solo Developer",
+    period: "2024 – 2025",
+    techStack: ["Java 17+", "Processing 4.3.1", "Gradle 9", "JUnit 5", "Physics", "2D game"],
+    shortDescription:
+      "Physics-based puzzle game: guide coloured balls into matching holes by drawing barriers. Collision detection, breakable bricks, ball queue, three levels with config (config.json + level files), pause and restart.",
+    highlights: [
+      "Implemented OOP design (App, Balls, Holes, Hitbox, Walls, breakingBrick, Drawing): draw/delete lines, ball–line and ball–wall collision, hole attraction and colour-match capture, scoring and wrong-hole penalty.",
+      "Data-driven levels and scoring via config.json and level1–3.txt; Processing 4.3.1 with Java 17+ and JogAmp to avoid macOS EAWT issues; JUnit 5 tests with headless skip for CI.",
+      "Features: ball queue, spawn countdown, timer, breakable bricks with cracked sprites; Space to pause, R to restart; documented architecture and troubleshooting for INFO1113/COMP9003.",
+    ],
+    link: "https://github.com/bhakthisalimath/inkball",
+    bookmarkLabel: "Inkball",
+    accent: "#ec4899",
+    mediaType: "image",
+    mediaLabel: "Inkball puzzle game",
+  },
+  {
     id: "student-record-bst",
     name: "Student Record Management System (BST)",
     role: "Solo Developer",
