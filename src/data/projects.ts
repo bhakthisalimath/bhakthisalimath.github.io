@@ -151,6 +151,25 @@ export const projects: Project[] = [
     mediaLabel: "Dynamic top-k tree",
   },
   {
+    id: "heuristic-search-engine",
+    name: "Heuristic Search Engine",
+    role: "Solo Developer",
+    period: "2024 – 2025",
+    techStack: ["Python 3.6+", "BFS", "DFS", "IDS", "A*", "Greedy", "Hill Climbing", "Standard library only"],
+    shortDescription:
+      "State-space search framework over binary strings: six algorithms (BFS, DFS, IDS, Greedy Best-First, A*, Hill Climbing). Flexible input with start, goals, and unsafe states (X wildcards); single CLI entry point; configurable expansion limit.",
+    highlights: [
+      "Implemented six search strategies in separate modules (bfs, dfs, ids, greedy, A_star, hillClimb) with shared utils: parse_input_file, Node, flip, goal/unsafe checks, Hamming heuristic; consistent path + expanded-order output.",
+      "Input format: 3-line file (start, goals, unsafe); X in goals = don’t care, X in unsafe = expanded to all concrete states; state space = flip one bit per step; bounded search (default 1000 expansions).",
+      "Single entry point (broken_printer.py) with strategy letter (B/D/I/G/A/H); standard library only; documented for INFO1113/COMP9003 at University of Sydney.",
+    ],
+    link: "https://github.com/bhakthisalimath/heuristic-search-engine",
+    bookmarkLabel: "Search Engine",
+    accent: "#059669",
+    mediaType: "image",
+    mediaLabel: "Heuristic search engine",
+  },
+  {
     id: "bit-state-manager",
     name: "BitStateManager — Naughty Bits CLI",
     role: "Solo Developer",
