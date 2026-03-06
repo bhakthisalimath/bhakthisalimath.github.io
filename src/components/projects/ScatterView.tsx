@@ -256,11 +256,11 @@ export function ScatterView({
             data-water-target
           >
             <div className="scatter-card-top">
+              <span className="scatter-period">{project.period}</span>
               <span className="scatter-dot" />
               <span className="scatter-title">
                 {project.bookmarkLabel ?? project.name}
               </span>
-              <span className="scatter-period">{project.period}</span>
             </div>
             <p className="scatter-role">{project.role}</p>
             <div className="scatter-tags">

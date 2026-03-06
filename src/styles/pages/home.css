@@ -251,6 +251,61 @@
   color: var(--text);
 }
 
+.hero-email-wrap {
+  position: relative;
+}
+
+.hero-email-chevron {
+  font-size: 0.65em;
+  opacity: 0.8;
+  margin-left: 0.15rem;
+}
+
+.hero-email-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.35rem;
+  min-width: 12.5rem;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 10px 30px var(--shadow);
+  z-index: 50;
+}
+
+.hero-email-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.35rem;
+  font-size: 0.8125rem;
+  text-align: left;
+  color: var(--text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+  transition: background-color 120ms ease;
+  white-space: nowrap;
+}
+
+.hero-email-menu-item:hover {
+  background: rgba(156, 163, 175, 0.2);
+}
+
+.hero-email-menu-item + .hero-email-menu-item {
+  margin-top: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 0.35rem 0.35rem;
+}
+
+.hero-email-menu-item:first-child {
+  border-radius: 0.35rem 0.35rem 0 0;
+}
+
 .hero-social-pill {
   display: inline-flex;
   align-items: center;
@@ -259,8 +314,16 @@
   border-radius: 9999px;
   border: 1px solid var(--border);
   background: var(--surface);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
   transition: border-color 150ms ease, background-color 150ms ease,
     transform 150ms ease;
+}
+
+button.hero-social-pill {
+  appearance: none;
 }
 
 .hero-social-pill:hover {

@@ -180,6 +180,9 @@
   }
 
   .scatter-period {
+    position: absolute;
+    top: 0;
+    right: 0;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;

@@ -1,11 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 import { homeCopy } from "@/data/home";
 
+const EMAIL_ADDRESS = "bhakthisalimath@gmail.com";
+const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL_ADDRESS)}`;
+
 export default function HomePage() {
+  const [emailMenuOpen, setEmailMenuOpen] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const emailMenuRef = useRef<HTMLDivElement>(null);
   const content = useMemo(
     () => ({
       hero: homeCopy.hero,
@@ -29,6 +35,36 @@ export default function HomePage() {
       block: "start",
     });
   }, []);
+
+  const openGmail = useCallback(() => {
+    window.open(GMAIL_COMPOSE_URL, "_blank", "noopener,noreferrer");
+    setEmailMenuOpen(false);
+  }, []);
+
+  const copyEmail = useCallback(() => {
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(EMAIL_ADDRESS).then(() => {
+        setEmailCopied(true);
+        setEmailMenuOpen(false);
+        setTimeout(() => setEmailCopied(false), 2000);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        emailMenuRef.current &&
+        !emailMenuRef.current.contains(event.target as Node)
+      ) {
+        setEmailMenuOpen(false);
+      }
+    }
+    if (emailMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [emailMenuOpen]);
 
   useEffect(() => {
     const elements = Array.from(
@@ -107,24 +143,86 @@ export default function HomePage() {
 
           {/* Social links */}
           <div id="contact" className="hero-socials">
-            {content.hero.socials.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="hero-social-pill"
-              >
-                {item.icon && (
-                  <img
-                    src={item.icon}
-                    alt={item.label}
-                    className="hero-social-icon"
-                  />
-                )}
-                <span>{item.label}</span>
-              </a>
-            ))}
+            {content.hero.socials.map((item) => {
+              const isEmail = item.href.startsWith("mailto:");
+              if (isEmail) {
+                return (
+                  <div
+                    key={item.label}
+                    ref={emailMenuRef}
+                    className="hero-email-wrap"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setEmailMenuOpen((open) => !open)}
+                      className="hero-social-pill"
+                      aria-label="Email options"
+                      aria-expanded={emailMenuOpen}
+                      aria-haspopup="true"
+                    >
+                      {item.icon && (
+                        <img
+                          src={item.icon}
+                          alt={item.label}
+                          className="hero-social-icon"
+                        />
+                      )}
+                      <span>{item.label}</span>
+                      <span className="hero-email-chevron" aria-hidden="true">
+                        {emailMenuOpen ? "▲" : "▼"}
+                      </span>
+                    </button>
+                    {emailMenuOpen && (
+                      <div
+                        className="hero-email-menu"
+                        role="menu"
+                        aria-label="Email options"
+                      >
+                        <a
+                          href={GMAIL_COMPOSE_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                          role="menuitem"
+                          className="hero-email-menu-item"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            openGmail();
+                          }}
+                        >
+                          Open in Gmail
+                        </a>
+                        <button
+                          type="button"
+                          role="menuitem"
+                          className="hero-email-menu-item"
+                          onClick={copyEmail}
+                        >
+                          {emailCopied ? "Copied!" : "Copy email address"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hero-social-pill"
+                >
+                  {item.icon && (
+                    <img
+                      src={item.icon}
+                      alt={item.label}
+                      className="hero-social-icon"
+                    />
+                  )}
+                  <span>{item.label}</span>
+                </a>
+              );
+            })}
           </div>
         </div>
 

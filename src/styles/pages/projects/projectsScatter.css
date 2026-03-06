@@ -159,12 +159,20 @@
     cursor: grabbing;
   }
 
+  .scatter-card-top {
+    position: relative;
+    padding-top: 1.25em;
+  }
+
   .scatter-title {
     font-weight: 600;
     color: var(--text);
   }
 
   .scatter-period {
+    position: absolute;
+    top: 0;
+    right: 0;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
