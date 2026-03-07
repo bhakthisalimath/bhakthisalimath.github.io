@@ -322,6 +322,25 @@ export const projects: Project[] = [
     mediaLabel: "BiteSavr grocery comparison",
   },
   {
+    id: "clueless-wardrobe",
+    name: "Clueless — AI-Powered Wardrobe Platform",
+    role: "Solo Developer",
+    period: "Jan 2025 – Dec 2025",
+    techStack: ["React 18.3", "TypeScript 5.9", "Vite 5.3", "Supabase 2.56", "Firebase 10.12", "Express 5.1", "Open-Meteo"],
+    shortDescription:
+      "Full-stack weather-aware outfit generator: get shirt + shorts or dress suggestions based on your location, live weather (Open-Meteo), and your closet stored in Supabase. Firebase Auth, optional AI tagging via Hugging Face FashionBLIP. Built for Clueless Hackathon 2025.",
+    highlights: [
+      "React SPA (Vite) + Express API with Vite proxy /api → backend; GET /api/outfit uses geolocation, Open-Meteo weather, and Supabase clothes table to suggest outfits by temperature band (warm/mild/cold).",
+      "Personal closet: upload tops, bottoms, dresses to Supabase Storage; metadata in clothes table; optional demo mode (PUBLIC_UID) for shared wardrobe; Firebase Auth for sign-up/sign-in.",
+      "TypeScript end-to-end; env-based config (Supabase, Firebase); health, test-weather, test-supabase endpoints; optional tagImage() (Hugging Face) for AI tagging; documented quick start and troubleshooting.",
+    ],
+    link: "https://github.com/bhakthisalimath/clueless-ai-wardrobe-platform",
+    bookmarkLabel: "Clueless",
+    accent: "#ec4899",
+    mediaType: "image",
+    mediaLabel: "Clueless wardrobe outfit generator",
+  },
+  {
     id: "vsas",
     name: "Virtual Scroll Access System (VSAS)",
     role: "Group Project (Contributor)",
