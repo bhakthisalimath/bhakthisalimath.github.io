@@ -33,6 +33,16 @@ export const homeCopy: {
     subtitle: string;
     cta: string;
   };
+  linkedin: {
+    title: string;
+    subtitle: string;
+    posts: {
+      title: string;
+      href: string;
+      date?: string;
+      tag?: string;
+    }[];
+  };
 } = {
   hero: {
     headline: "Hi, I'm Bhakthi Salimath",
@@ -45,7 +55,7 @@ export const homeCopy: {
       "Previously: BiteSavr, ML Sentiment Analysis System, and Award-winning Hackathon Projects",
     creator:
       "I enjoy building intelligent systems and data-driven applications, combining algorithms, machine learning, and software engineering to solve real-world problems.",
-    arrowLabel: "Scroll to about section",
+    arrowLabel: "Scroll to projects",
     socials: [
       {
         label: "GitHub",
@@ -106,5 +116,29 @@ export const homeCopy: {
     subtitle:
       "Selected projects involving machine learning, algorithms, and real-world software applications.",
     cta: "View all projects",
+  },
+  linkedin: {
+    title: "From LinkedIn",
+    subtitle:
+      "A few posts that give extra context and reflections beyond the code.",
+    posts: [
+      {
+        title: 'Clueless — SYNCS Hack 2025 "Cities of the Future"',
+        href: "https://www.linkedin.com/in/bhakthisalimath/",
+        tag: "Hackathon · Sustainability",
+      },
+      {
+        title:
+          "BiteSavr — WiT LaunchPad Hackathon (2nd place, everyday impact)",
+        href: "https://www.linkedin.com/in/bhakthisalimath/",
+        tag: "Hackathon · Product",
+      },
+      {
+        title:
+          "GDSC × ENGO Problem Solving Challenge (1st place, UN SDGs)",
+        href: "https://www.linkedin.com/in/bhakthisalimath/",
+        tag: "Leadership · SDGs",
+      },
+    ],
   },
 };

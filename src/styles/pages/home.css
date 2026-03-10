@@ -435,6 +435,26 @@ button.hero-social-pill {
   color: var(--text-muted);
 }
 
+.hero-about-inline {
+  margin-top: 1rem;
+}
+
+.home-section--linkedin {
+  margin-top: 2rem;
+}
+
+.linkedin-embeds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.linkedin-embed {
+  width: 100%;
+  max-width: 504px;
+  margin: 0 auto;
+}
+
 /* About & Education grid */
 
 .section-kicker {

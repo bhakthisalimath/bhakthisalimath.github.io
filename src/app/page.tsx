@@ -18,12 +18,13 @@ export default function HomePage() {
       about: homeCopy.about,
       education: homeCopy.education,
       featuredProjects: homeCopy.featuredProjects,
+      linkedin: homeCopy.linkedin,
     }),
     []
   );
 
   const scrollToAbout = useCallback(() => {
-    document.getElementById("about")?.scrollIntoView({
+    document.getElementById("home-projects")?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
@@ -140,6 +141,25 @@ export default function HomePage() {
 
           {/* Creator line */}
           <p className="hero-creator">{content.hero.creator}</p>
+          <div className="hero-about-inline">
+            <div className="about-text">
+              {content.about.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+            <ul className="about-facts">
+              {content.about.facts.map((fact) => (
+                <li key={fact}>{fact}</li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              className="section-cta"
+              onClick={scrollToProjects}
+            >
+              {content.about.cta}
+            </button>
+          </div>
 
           {/* Social links */}
           <div id="contact" className="hero-socials">
@@ -238,41 +258,34 @@ export default function HomePage() {
       </section>
 
       <section
-        id="about"
-        className="home-section home-section--paired reveal-on-scroll"
+        id="home-projects"
+        className="home-section home-section--projects reveal-on-scroll"
       >
         <header className="home-section-header">
-          <h2 className="home-section-title">{content.about.title}</h2>
-          <p className="home-section-subtitle">{content.about.subtitle}</p>
+          <h2 className="home-section-title">
+            {content.featuredProjects.title}
+          </h2>
+          <p className="home-section-subtitle">
+            {content.featuredProjects.subtitle}
+          </p>
         </header>
 
-        <div className="about-card reveal-on-scroll">
-          <div className="about-card-head">
-            <span className="section-kicker">{content.about.title}</span>
-            <h3 className="about-card-title">
-              {content.hero.headline} {content.hero.wave}
-            </h3>
-          </div>
+        <div className="home-projects-grid">
+          {projects.slice(0, 3).map((project) => (
+            <div key={project.id} className="reveal-on-scroll">
+              <ProjectCard
+                project={project}
+                linkLabel="View on GitHub →"
+                compact
+              />
+            </div>
+          ))}
+        </div>
 
-          <div className="about-text">
-            {content.about.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-
-          <ul className="about-facts">
-            {content.about.facts.map((fact) => (
-              <li key={fact}>{fact}</li>
-            ))}
-          </ul>
-
-          <button
-            type="button"
-            className="section-cta"
-            onClick={scrollToProjects}
-          >
-            {content.about.cta}
-          </button>
+        <div className="home-section-footer">
+          <a href="/projects" className="home-section-link">
+            {content.featuredProjects.cta} →
+          </a>
         </div>
       </section>
 
@@ -313,33 +326,57 @@ export default function HomePage() {
       </section>
 
       <section
-        id="home-projects"
-        className="home-section home-section--projects reveal-on-scroll"
+        id="linkedin"
+        className="home-section home-section--linkedin reveal-on-scroll"
       >
         <header className="home-section-header">
-          <h2 className="home-section-title">
-            {content.featuredProjects.title}
-          </h2>
+          <h2 className="home-section-title">{content.linkedin.title}</h2>
           <p className="home-section-subtitle">
-            {content.featuredProjects.subtitle}
+            {content.linkedin.subtitle}
           </p>
         </header>
 
-        <div className="home-projects-grid">
-          {projects.slice(0, 3).map((project) => (
-            <div key={project.id} className="reveal-on-scroll">
-              <ProjectCard
-                project={project}
-                linkLabel="View on GitHub →"
-                compact
-              />
-            </div>
-          ))}
+        <div className="linkedin-embeds">
+          {/* Latest → oldest */}
+          <div className="linkedin-embed">
+            <iframe
+              src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7391697614162812928?collapsed=1"
+              height="628"
+              width="100%"
+              frameBorder="0"
+              allowFullScreen
+              title="LinkedIn post 7391697614162812928"
+            />
+          </div>
+          <div className="linkedin-embed">
+            <iframe
+              src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7249947272107450369?collapsed=1"
+              height="628"
+              width="100%"
+              frameBorder="0"
+              allowFullScreen
+              title="LinkedIn post 7249947272107450369"
+            />
+          </div>
+          <div className="linkedin-embed">
+            <iframe
+              src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7220277783887794176?collapsed=1"
+              height="628"
+              width="100%"
+              frameBorder="0"
+              allowFullScreen
+              title="LinkedIn post 7220277783887794176"
+            />
+          </div>
         </div>
-
         <div className="home-section-footer">
-          <a href="/projects" className="home-section-link">
-            {content.featuredProjects.cta} →
+          <a
+            href="https://www.linkedin.com/in/bhakthisalimath/"
+            target="_blank"
+            rel="noreferrer"
+            className="home-section-link"
+          >
+            View my profile →
           </a>
         </div>
       </section>
