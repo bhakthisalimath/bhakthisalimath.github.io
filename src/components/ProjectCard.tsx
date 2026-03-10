@@ -5,9 +5,15 @@ type Props = {
   project: Project;
   compact?: boolean;
   linkLabel?: string;
+  hideLink?: boolean;
 };
 
-export default function ProjectCard({ project, compact, linkLabel }: Props) {
+export default function ProjectCard({
+  project,
+  compact,
+  linkLabel,
+  hideLink,
+}: Props) {
   return (
     <div className="project-card">
       <div className="project-card-header">
@@ -43,7 +49,7 @@ export default function ProjectCard({ project, compact, linkLabel }: Props) {
         </ul>
       )}
 
-      {project.link && (
+      {project.link && !hideLink && (
         <a
           href={project.link}
           target="_blank"

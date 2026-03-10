@@ -202,6 +202,129 @@
   color: var(--text-muted);
 }
 
+/* ===== Hero snapshot (sentence + highlight boxes + chips) ===== */
+
+.hero-snapshot {
+  margin-top: 0.5rem;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.hero-snapshot-title {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-muted);
+}
+
+.hero-snapshot-lead {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  width: 100%;
+  max-width: none;
+}
+
+.hero-snapshot-cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0.75rem;
+}
+
+.hero-snapshot-card {
+  grid-column: span 4;
+  padding: 0.85rem 0.9rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-hover);
+  box-shadow: 0 12px 30px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (max-width: 900px) {
+  .hero-snapshot-card {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-snapshot-card {
+    grid-column: span 12;
+  }
+}
+
+.hero-snapshot-card-title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-muted);
+}
+
+.hero-snapshot-card-body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.hero-snapshot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.hero-snapshot-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.55rem 0.1rem 0.1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  background: color-mix(in oklab, var(--surface-hover) 70%, transparent);
+  border: 1px solid var(--border-subtle);
+  gap: 0.45rem;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.hero-snapshot-chip-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-muted);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.hero-snapshot-chip-value {
+  color: var(--text);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.hero-snapshot-cta {
+  margin-top: 0.35rem;
+}
+
 /* ===== Floating avatar on top of card ===== */
 
 .hero-avatar-floating {
@@ -243,12 +366,27 @@
 
 .hero-socials {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
   padding-top: 0.5rem;
   font-size: 0.875rem;
   color: var(--text);
+}
+
+.hero-contact-blurb {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  max-width: 70ch;
+}
+
+.hero-socials-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .hero-email-wrap {
@@ -441,6 +579,78 @@ button.hero-social-pill {
 
 .home-section--linkedin {
   margin-top: 2rem;
+}
+
+.home-section--github {
+  margin-top: 2rem;
+}
+
+.github-repos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.1rem;
+}
+
+.github-repo-card {
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: var(--surface-hover);
+  box-shadow: 0 14px 36px var(--shadow);
+  padding: 1.1rem;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: transform 150ms ease, border-color 150ms ease,
+    background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.github-repo-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-soft);
+  background: var(--surface);
+  box-shadow: 0 18px 46px var(--shadow);
+}
+
+.github-repo-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.github-repo-name {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.github-repo-pill {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--accent-soft);
+  color: var(--accent-muted);
+}
+
+.github-repo-desc {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.github-repo-link {
+  margin-top: auto;
+  color: var(--accent);
+  font-weight: 650;
+  font-size: 0.85rem;
 }
 
 .linkedin-embeds {
@@ -674,6 +884,20 @@ button.hero-social-pill {
   gap: 1rem;
   margin-top: 0.75rem;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.home-project-card {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.home-project-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 1rem;
 }
 
 .home-section-footer {

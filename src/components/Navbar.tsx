@@ -8,7 +8,6 @@ import { useTheme } from "@/context/ThemeContext";
 const navItems = [
   { href: "/projects", label: "Projects" },
   { href: "/about", label: "About" },
-  { href: "#contact", label: "Contact" },
 ] as const;
 
 function SunIcon() {
@@ -72,6 +71,15 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={"nav-link " + (active ? "nav-link--active" : "")}
+                onClick={(e) => {
+                  if (item.href === "/#contact" && pathname === "/") {
+                    e.preventDefault();
+                    document.getElementById("contact")?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
+                }}
               >
                 {item.label}
               </Link>

@@ -2,19 +2,18 @@ export const homeCopy: {
   hero: {
     headline: string;
     wave: string;
-    currently: string;
-    currentLocation: string;
-    currentRole: string;
-    previousTitle: string;
-    creator: string;
     arrowLabel: string;
     socials: { label: string; href: string; icon: string }[];
+    snapshotTitle: string;
+    /** Short sentence at top (human, not “form-like”). */
+    snapshotLead: string;
+    /** Highlight boxes (cards). */
+    snapshotCards: { title: string; body: string }[];
+    /** Small chips for quick scanning. */
+    snapshotChips: string[];
+    contactBlurb: string;
   };
   about: {
-    title: string;
-    subtitle: string;
-    paragraphs: string[];
-    facts: string[];
     cta: string;
   };
   education: {
@@ -43,19 +42,42 @@ export const homeCopy: {
       tag?: string;
     }[];
   };
+  github: {
+    title: string;
+    subtitle: string;
+    cta: string;
+  };
 } = {
   hero: {
     headline: "Hi, I'm Bhakthi Salimath",
-    wave: "👋",
-    currently: "Currently",
-    currentLocation: "Studying in University of Sydney",
-    currentRole:
-      "Final year Bachelor of Advanced Computing student, majoring in Computer Science.",
-    previousTitle:
-      "Previously: BiteSavr, ML Sentiment Analysis System, and Award-winning Hackathon Projects",
-    creator:
-      "I enjoy building intelligent systems and data-driven applications, combining algorithms, machine learning, and software engineering to solve real-world problems.",
+    wave: ":)",
     arrowLabel: "Scroll to projects",
+    snapshotTitle: "At a glance",
+    snapshotLead:
+      "Final-year Bachelor of Advanced Computing (Computer Science) at the University of Sydney — I build and ship projects with clear demos and readable code.",
+    snapshotCards: [
+      {
+        title: "Shipped",
+        body: "BiteSavr · Clueless (SYNCS 2025) · ML sentiment analysis · hackathon & coursework builds",
+      },
+      {
+        title: "Stack",
+        body: "Java · Python · TypeScript/React · Supabase/Firebase · REST APIs",
+      },
+      {
+        title: "Hackathons",
+        body: "WiT Hackathon 2nd Place (BiteSavr) · SYNCS Hackahon 2025 (Clueless) · GDSC×ENGO Hackathon 1st Place",
+      },
+    ],
+    snapshotChips: [
+      "Frontend: Next.js, React, Angular, Vite, Tailwind CSS, React Router, Three.js, React Three Fiber, SwiftUI",
+      "Backend: Flask, SQLAlchemy, Flask-SocketIO, Express, Supabase, Firebase Authentication, SQLite, TCP sockets, JSON protocol design",
+      "Testing/Deployment: GitHub Actions, GitHub Pages, JaCoCo, JUnit 5, pytest, unittest, Karma",
+      "Developer tools: Gradle, Gradle Wrapper, SDKMAN, Node.js, npm, pip, Python venv, ESLint, Jenkins",
+      "Languages: Java, Python, TypeScript, JavaScript, HTML, CSS, Swift, GLSL, Shell, Batchfile",
+    ],
+    contactBlurb:
+      "Best way to reach me is email — I respond fastest there. LinkedIn works too for a quick intro.",
     socials: [
       {
         label: "GitHub",
@@ -75,20 +97,7 @@ export const homeCopy: {
     ],
   },
   about: {
-    title: "About me",
-    subtitle:
-      "A quick snapshot of who I am and the foundation I'm building on.",
-    paragraphs: [
-      "I'm Bhakthi Salimath, a Computer Science student at The University of Sydney pursuing a Bachelor of Advanced Computing.",
-      "I enjoy building intelligent systems and data-driven applications that combine algorithms, machine learning, and practical software engineering.",
-      "Through hackathons, academic projects, and personal builds, I have worked with technologies such as Java, Python, React, and modern development tools while exploring how software can solve real-world problems.",
-    ],
-    facts: [
-      "Location: Sydney, Australia",
-      "Degree: Bachelor of Advanced Computing (Computer Science)",
-      "Interests: Technology, algorithmic problem solving, hackathons, GDG society events, and gym",
-    ],
-    cta: "Jump to projects",
+    cta: "View projects",
   },
   education: {
     title: "Education",
@@ -140,5 +149,10 @@ export const homeCopy: {
         tag: "Leadership · SDGs",
       },
     ],
+  },
+  github: {
+    title: "From GitHub",
+    subtitle: "A quick repository view of my work — open any repo for code and docs.",
+    cta: "View GitHub profile",
   },
 };

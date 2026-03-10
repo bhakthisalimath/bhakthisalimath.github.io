@@ -15,6 +15,30 @@ export default function ProjectsPage() {
   const [viewMode, setViewMode] = useState<"scatter" | "timeline">("scatter");
   const [scatterExpanded, setScatterExpanded] = useState(false);
   const detailRef = useRef<HTMLDivElement | null>(null);
+  const folderRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get("selected");
+    const shouldExpand = params.get("expanded") === "1";
+    const requestedView = params.get("view");
+
+    if (requestedView === "scatter" || requestedView === "timeline") {
+      setViewMode(requestedView);
+    }
+
+    if (shouldExpand) {
+      setScatterExpanded(true);
+      requestAnimationFrame(() => {
+        folderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    if (requested && localizedProjects.some((p) => p.id === requested)) {
+      setSelectedId(requested);
+    }
+  }, [localizedProjects]);
 
   useEffect(() => {
     if (!localizedProjects.some((p) => p.id === selectedId)) {
@@ -68,6 +92,18 @@ export default function ProjectsPage() {
   const copy = projectsCopy;
   const accent = selectedProject?.accent ?? fallbackAccent;
 
+  useEffect(() => {
+    if (!selectedProject) return;
+    requestAnimationFrame(() => {
+      if (detailRef.current) {
+        detailRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    });
+  }, [selectedProject]);
+
   return (
     <div className={`projects-page ${stageReady ? "is-mounted" : ""}`}>
       <header
@@ -86,6 +122,7 @@ export default function ProjectsPage() {
           viewMode === "timeline" ? "is-timeline-entry" : ""
         }`}
         style={{ ["--reveal-delay" as string]: "140ms" }}
+        ref={folderRef}
       >
         <div className="projects-toolbar">
           <div className="projects-toolbar-left">

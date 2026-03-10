@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 import { homeCopy } from "@/data/home";
@@ -9,9 +10,12 @@ const EMAIL_ADDRESS = "bhakthisalimath@gmail.com";
 const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL_ADDRESS)}`;
 
 export default function HomePage() {
+  const router = useRouter();
   const [emailMenuOpen, setEmailMenuOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
   const emailMenuRef = useRef<HTMLDivElement>(null);
+  const githubGridRef = useRef<HTMLDivElement>(null);
+  const [githubVisibleCount, setGithubVisibleCount] = useState(6);
   const content = useMemo(
     () => ({
       hero: homeCopy.hero,
@@ -19,7 +23,13 @@ export default function HomePage() {
       education: homeCopy.education,
       featuredProjects: homeCopy.featuredProjects,
       linkedin: homeCopy.linkedin,
+      github: homeCopy.github,
     }),
+    []
+  );
+
+  const githubRepos = useMemo(
+    () => projects.filter((p) => !!p.link && p.link.includes("github.com")),
     []
   );
 
@@ -66,6 +76,41 @@ export default function HomePage() {
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [emailMenuOpen]);
+
+  useEffect(() => {
+    const el = githubGridRef.current;
+    if (!el) return;
+
+    const MIN_CARD_PX = 260;
+    const GAP_PX = 18; // matches ~1.1rem gap in CSS
+    const ROWS = 2; // fixed "length" of the section
+
+    const update = () => {
+      const width = el.clientWidth || 0;
+      if (!width) return;
+
+      const columns = Math.max(
+        1,
+        Math.floor((width + GAP_PX) / (MIN_CARD_PX + GAP_PX))
+      );
+      setGithubVisibleCount(Math.min(githubRepos.length, columns * ROWS));
+    };
+
+    update();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(update);
+      ro.observe(el);
+      window.addEventListener("resize", update);
+      return () => {
+        ro.disconnect();
+        window.removeEventListener("resize", update);
+      };
+    }
+
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [githubRepos.length]);
 
   useEffect(() => {
     const elements = Array.from(
@@ -123,38 +168,41 @@ export default function HomePage() {
             </h1>
           </header>
 
-          {/* Meta info */}
-          <div className="hero-meta">
-            <div className="hero-meta-row">
-              <div className="hero-current">
-                <span className="hero-rocket">🚀</span>
-                <span>{content.hero.currently}</span>
-              </div>
-              <div className="hero-location">
-                {content.hero.currentLocation}
-              </div>
-            </div>
+          {/* Scannable snapshot — sentence + highlights (not form-like) */}
+          <div className="hero-snapshot">
+            <p className="hero-snapshot-title">{content.hero.snapshotTitle}</p>
+            <p className="hero-snapshot-lead">{content.hero.snapshotLead}</p>
 
-            <p className="hero-role">{content.hero.currentRole}</p>
-            <p className="hero-previous">{content.hero.previousTitle}</p>
-          </div>
-
-          {/* Creator line */}
-          <p className="hero-creator">{content.hero.creator}</p>
-          <div className="hero-about-inline">
-            <div className="about-text">
-              {content.about.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+            <div className="hero-snapshot-cards" aria-label="Highlights">
+              {content.hero.snapshotCards.map((card) => (
+                <div key={card.title} className="hero-snapshot-card">
+                  <p className="hero-snapshot-card-title">{card.title}</p>
+                  <p className="hero-snapshot-card-body">{card.body}</p>
+                </div>
               ))}
             </div>
-            <ul className="about-facts">
-              {content.about.facts.map((fact) => (
-                <li key={fact}>{fact}</li>
-              ))}
-            </ul>
+
+            <div className="hero-snapshot-chips" aria-label="Quick tags">
+              {content.hero.snapshotChips.map((chip) => {
+                const sepIndex = chip.indexOf(":");
+                const label =
+                  sepIndex === -1 ? chip : chip.slice(0, sepIndex).trim();
+                const value =
+                  sepIndex === -1 ? "" : chip.slice(sepIndex + 1).trim();
+
+                return (
+                  <span key={chip} className="hero-snapshot-chip">
+                    <span className="hero-snapshot-chip-label">{label}</span>
+                    {value ? (
+                      <span className="hero-snapshot-chip-value">{value}</span>
+                    ) : null}
+                  </span>
+                );
+              })}
+            </div>
             <button
               type="button"
-              className="section-cta"
+              className="section-cta hero-snapshot-cta"
               onClick={scrollToProjects}
             >
               {content.about.cta}
@@ -163,86 +211,89 @@ export default function HomePage() {
 
           {/* Social links */}
           <div id="contact" className="hero-socials">
-            {content.hero.socials.map((item) => {
-              const isEmail = item.href.startsWith("mailto:");
-              if (isEmail) {
-                return (
-                  <div
-                    key={item.label}
-                    ref={emailMenuRef}
-                    className="hero-email-wrap"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setEmailMenuOpen((open) => !open)}
-                      className="hero-social-pill"
-                      aria-label="Email options"
-                      aria-expanded={emailMenuOpen}
-                      aria-haspopup="true"
+            <p className="hero-contact-blurb">{content.hero.contactBlurb}</p>
+            <div className="hero-socials-row" aria-label="Social links">
+              {content.hero.socials.map((item) => {
+                const isEmail = item.href.startsWith("mailto:");
+                if (isEmail) {
+                  return (
+                    <div
+                      key={item.label}
+                      ref={emailMenuRef}
+                      className="hero-email-wrap"
                     >
-                      {item.icon && (
-                        <img
-                          src={item.icon}
-                          alt={item.label}
-                          className="hero-social-icon"
-                        />
-                      )}
-                      <span>{item.label}</span>
-                      <span className="hero-email-chevron" aria-hidden="true">
-                        {emailMenuOpen ? "▲" : "▼"}
-                      </span>
-                    </button>
-                    {emailMenuOpen && (
-                      <div
-                        className="hero-email-menu"
-                        role="menu"
+                      <button
+                        type="button"
+                        onClick={() => setEmailMenuOpen((open) => !open)}
+                        className="hero-social-pill"
                         aria-label="Email options"
+                        aria-expanded={emailMenuOpen}
+                        aria-haspopup="true"
                       >
-                        <a
-                          href={GMAIL_COMPOSE_URL}
-                          target="_blank"
-                          rel="noreferrer"
-                          role="menuitem"
-                          className="hero-email-menu-item"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            openGmail();
-                          }}
+                        {item.icon && (
+                          <img
+                            src={item.icon}
+                            alt={item.label}
+                            className="hero-social-icon"
+                          />
+                        )}
+                        <span>{item.label}</span>
+                        <span className="hero-email-chevron" aria-hidden="true">
+                          {emailMenuOpen ? "▲" : "▼"}
+                        </span>
+                      </button>
+                      {emailMenuOpen && (
+                        <div
+                          className="hero-email-menu"
+                          role="menu"
+                          aria-label="Email options"
                         >
-                          Open in Gmail
-                        </a>
-                        <button
-                          type="button"
-                          role="menuitem"
-                          className="hero-email-menu-item"
-                          onClick={copyEmail}
-                        >
-                          {emailCopied ? "Copied!" : "Copy email address"}
-                        </button>
-                      </div>
+                          <a
+                            href={GMAIL_COMPOSE_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            role="menuitem"
+                            className="hero-email-menu-item"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              openGmail();
+                            }}
+                          >
+                            Open in Gmail
+                          </a>
+                          <button
+                            type="button"
+                            role="menuitem"
+                            className="hero-email-menu-item"
+                            onClick={copyEmail}
+                          >
+                            {emailCopied ? "Copied!" : "Copy email address"}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hero-social-pill"
+                  >
+                    {item.icon && (
+                      <img
+                        src={item.icon}
+                        alt={item.label}
+                        className="hero-social-icon"
+                      />
                     )}
-                  </div>
+                    <span>{item.label}</span>
+                  </a>
                 );
-              }
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hero-social-pill"
-                >
-                  {item.icon && (
-                    <img
-                      src={item.icon}
-                      alt={item.label}
-                      className="hero-social-icon"
-                    />
-                  )}
-                  <span>{item.label}</span>
-                </a>
-              );
-            })}
+              })}
+            </div>
           </div>
         </div>
 
@@ -272,13 +323,20 @@ export default function HomePage() {
 
         <div className="home-projects-grid">
           {projects.slice(0, 3).map((project) => (
-            <div key={project.id} className="reveal-on-scroll">
+            <button
+              key={project.id}
+              type="button"
+              className="reveal-on-scroll home-project-card"
+              onClick={() => router.push("/projects?expanded=1&view=scatter")}
+              aria-label={`Open Projects (expanded view)`}
+            >
               <ProjectCard
                 project={project}
                 linkLabel="View on GitHub →"
                 compact
+                hideLink
               />
-            </div>
+            </button>
           ))}
         </div>
 
@@ -377,6 +435,47 @@ export default function HomePage() {
             className="home-section-link"
           >
             View my profile →
+          </a>
+        </div>
+      </section>
+
+      <section
+        id="github"
+        className="home-section home-section--github reveal-on-scroll"
+      >
+        <header className="home-section-header">
+          <h2 className="home-section-title">{content.github.title}</h2>
+          <p className="home-section-subtitle">{content.github.subtitle}</p>
+        </header>
+
+        <div ref={githubGridRef} className="github-repos">
+          {githubRepos.slice(0, githubVisibleCount).map((project) => (
+              <a
+                key={project.id}
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                className="github-repo-card"
+                aria-label={`Open ${project.name} on GitHub`}
+              >
+                <div className="github-repo-top">
+                  <span className="github-repo-name">{project.name}</span>
+                  <span className="github-repo-pill">Repo</span>
+                </div>
+                <p className="github-repo-desc">{project.shortDescription}</p>
+                <span className="github-repo-link">View repository →</span>
+              </a>
+            ))}
+        </div>
+
+        <div className="home-section-footer">
+          <a
+            href="https://github.com/bhakthisalimath"
+            target="_blank"
+            rel="noreferrer"
+            className="home-section-link"
+          >
+            {content.github.cta} →
           </a>
         </div>
       </section>
