@@ -9,6 +9,7 @@ const fallbackAccent = "#8b5cf6";
 
 export default function ProjectsPage() {
   const localizedProjects = useMemo(() => projects, []);
+  const [projectSearch, setProjectSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [stageReady, setStageReady] = useState(false);
   const [viewMode, setViewMode] = useState<"scatter" | "timeline">("scatter");
@@ -27,6 +28,27 @@ export default function ProjectsPage() {
   }, []);
 
   if (!localizedProjects.length) return null;
+
+  const filteredProjects = useMemo(() => {
+    const q = projectSearch.trim().toLowerCase();
+    if (!q) return localizedProjects;
+    return localizedProjects.filter((p) => {
+      const nameMatch = p.name.toLowerCase().includes(q);
+      const labelMatch =
+        p.bookmarkLabel?.toLowerCase().includes(q) ?? false;
+      const idMatch = p.id.toLowerCase().includes(q);
+      return nameMatch || labelMatch || idMatch;
+    });
+  }, [localizedProjects, projectSearch]);
+
+  useEffect(() => {
+    if (
+      selectedId &&
+      !filteredProjects.some((p) => p.id === selectedId)
+    ) {
+      setSelectedId(null);
+    }
+  }, [filteredProjects, selectedId]);
 
   const handlePick = (project: Project) => {
     setSelectedId(project.id);
@@ -65,52 +87,90 @@ export default function ProjectsPage() {
         }`}
         style={{ ["--reveal-delay" as string]: "140ms" }}
       >
-        <div className="view-toggle">
-          <button
-            type="button"
-            className={
-              viewMode === "scatter"
-                ? "view-toggle-btn is-active"
-                : "view-toggle-btn"
-            }
-            onClick={() => setViewMode("scatter")}
-          >
-            Scatter
-          </button>
-          <button
-            type="button"
-            className={
-              viewMode === "timeline"
-                ? "view-toggle-btn is-active"
-                : "view-toggle-btn"
-            }
-            onClick={() => setViewMode("timeline")}
-          >
-            Timeline
-          </button>
-          {viewMode === "scatter" && (
+        <div className="projects-toolbar">
+          <div className="projects-toolbar-left">
             <button
               type="button"
-              className={`view-toggle-btn view-toggle-expand ${
-                scatterExpanded ? "is-active" : ""
-              }`}
-              onClick={() => setScatterExpanded((prev) => !prev)}
-              aria-expanded={scatterExpanded}
-              aria-label={scatterExpanded ? "Minimize" : "Expand"}
+              className={
+                viewMode === "scatter"
+                  ? "view-toggle-btn is-active"
+                  : "view-toggle-btn"
+              }
+              onClick={() => setViewMode("scatter")}
             >
-              {scatterExpanded ? "Minimize" : "Expand"}
+              Scatter
             </button>
-          )}
+            <button
+              type="button"
+              className={
+                viewMode === "timeline"
+                  ? "view-toggle-btn is-active"
+                  : "view-toggle-btn"
+              }
+              onClick={() => setViewMode("timeline")}
+            >
+              Timeline
+            </button>
+          </div>
+
+          <div className="projects-toolbar-center">
+            <label
+              className="projects-search-label"
+              htmlFor="projects-search"
+            >
+              Search projects
+            </label>
+            <div className="projects-search-inner">
+              <input
+                id="projects-search"
+                type="search"
+                className="projects-search-input"
+                placeholder="Search by name…"
+                value={projectSearch}
+                onChange={(e) => setProjectSearch(e.target.value)}
+                autoComplete="off"
+                spellCheck={false}
+              />
+              {projectSearch.trim() && (
+                <span className="projects-search-count">
+                  {filteredProjects.length} of {localizedProjects.length}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="projects-toolbar-right">
+            {viewMode === "scatter" ? (
+              <button
+                type="button"
+                className={`view-toggle-btn view-toggle-expand ${
+                  scatterExpanded ? "is-active" : ""
+                }`}
+                onClick={() => setScatterExpanded((prev) => !prev)}
+                aria-expanded={scatterExpanded}
+                aria-label={scatterExpanded ? "Minimize" : "Expand"}
+              >
+                {scatterExpanded ? "Minimize" : "Expand"}
+              </button>
+            ) : (
+              <span className="projects-toolbar-spacer" aria-hidden />
+            )}
+          </div>
         </div>
 
-        {viewMode === "scatter" ? (
+        {filteredProjects.length === 0 && projectSearch.trim() ? (
+          <p className="projects-search-empty">
+            No projects match &ldquo;{projectSearch.trim()}&rdquo;. Clear the
+            search to see all projects.
+          </p>
+        ) : viewMode === "scatter" ? (
           <div
             className="scatter-hover-expand"
             onMouseEnter={() => setScatterExpanded(true)}
             onTouchStart={() => setScatterExpanded(true)}
           >
             <ScatterView
-              projects={localizedProjects}
+              projects={filteredProjects}
               selectedId={selectedId}
               onSelect={handlePick}
               stageReady={stageReady}
@@ -121,7 +181,7 @@ export default function ProjectsPage() {
           </div>
         ) : (
           <TimelineView
-            projects={localizedProjects}
+            projects={filteredProjects}
             selectedId={selectedId}
             onSelect={handlePick}
             fallbackAccent={fallbackAccent}

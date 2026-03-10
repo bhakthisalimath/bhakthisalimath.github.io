@@ -21,7 +21,7 @@ export const projects: Project[] = [
     id: "checkers-java",
     name: "Checkers (Draughts) — Java & Processing",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Mar 2024 – Apr 2024",
     techStack: ["Java 8", "Processing 3", "Gradle", "OOP"],
     shortDescription:
       "Graphical Checkers implementation built with Processing and a Gradle wrapper for reproducible runs. Features click-to-select, valid-move highlighting, captures, king promotion, and win detection.",
@@ -40,7 +40,7 @@ export const projects: Project[] = [
     id: "tactical-tank-game",
     name: "Tactical Tank Game",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Apr 2024 – May 2024",
     techStack: ["Java 8", "Processing 3.3.7", "Gradle 8.5", "2D game", "Turn-based"],
     shortDescription:
       "2D tactical tank game built with Java and the Processing library. Turn-based gameplay on a grid-based board with configurable levels, scoreboard, parachute drops, and a fixed 864×640 window at 30 FPS.",
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     id: "minesweeper-processing",
     name: "Minesweeper — Java & Processing",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Aug 2024 – Sep 2024",
     techStack: ["Java 8", "Processing 3.3.7", "Gradle 7.6.4", "OOP", "2D game"],
     shortDescription:
       "Graphical Minesweeper with click-to-reveal, right-click flags, adjacent mine counts (1–8), auto-reveal cascade, mine explosion animation, timer, and configurable mine count. Fixed 864×640 window, 27×18 grid.",
@@ -78,7 +78,7 @@ export const projects: Project[] = [
     id: "inkball",
     name: "Inkball — Physics Puzzle Game",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Sep 2024 – Oct 2024",
     techStack: ["Java 17+", "Processing 4.3.1", "Gradle 9", "JUnit 5", "Physics", "2D game"],
     shortDescription:
       "Physics-based puzzle game: guide coloured balls into matching holes by drawing barriers. Collision detection, breakable bricks, ball queue, three levels with config (config.json + level files), pause and restart.",
@@ -87,7 +87,7 @@ export const projects: Project[] = [
       "Data-driven levels and scoring via config.json and level1–3.txt; Processing 4.3.1 with Java 17+ and JogAmp to avoid macOS EAWT issues; JUnit 5 tests with headless skip for CI.",
       "Features: ball queue, spawn countdown, timer, breakable bricks with cracked sprites; Space to pause, R to restart; documented architecture and troubleshooting for INFO1113/COMP9003.",
     ],
-    link: "https://github.com/bhakthisalimath/inkball",
+    link: "https://github.com/bhakthisalimath/Inkball-Physics-Engine",
     bookmarkLabel: "Inkball",
     accent: "#ec4899",
     mediaType: "image",
@@ -97,7 +97,7 @@ export const projects: Project[] = [
     id: "2048-processing",
     name: "2048 — Java & Processing",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Mar 2025 – Apr 2025",
     techStack: ["Java 8", "Processing 3.3.7", "Gradle 7.6+", "OOP", "2D game"],
     shortDescription:
       "Graphical 2048 game: slide tiles, merge matching numbers, configurable grid (2×2 to 10×10 via --args), timer, mouse click to place 2/4 in empty cell, R to reset. Value-based tile colours, rounded cells, hover feedback.",
@@ -106,7 +106,7 @@ export const projects: Project[] = [
       "Build compiles to Java 8 bytecode; Gradle runs game with Java 8 (auto-detect or JAVA8_HOME) so Processing 3 works on macOS; .sdkmanrc optional; configurable grid size via command line.",
       "Polished UI: value-based colours, rounded rects, timer in header and on game over; documented for INFO1113/COMP9003 at University of Sydney.",
     ],
-    link: "https://github.com/bhakthisalimath/2048-java-processing",
+    link: "https://github.com/bhakthisalimath/grid-engine-2048",
     bookmarkLabel: "2048",
     accent: "#eab308",
     mediaType: "image",
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     id: "student-record-bst",
     name: "Student Record Management System (BST)",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Mar 2024 – Apr 2024",
     techStack: ["Python", "BST", "pytest", "unittest", "OOP"],
     shortDescription:
       "Student record management system using a Binary Search Tree in Python. Supports insert, search, delete, update, in-order and level-order traversal, and min/max GPA queries.",
@@ -131,11 +131,11 @@ export const projects: Project[] = [
     mediaType: "image",
     mediaLabel: "BST student records",
   },
-  {
+  { 
     id: "constrained-graph-pathfinding",
     name: "Constrained Graph Pathfinding",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Sep 2024 – Oct 2024",
     techStack: ["Python 3.9+", "BFS", "Dijkstra", "unittest", "OOP", "Standard library only"],
     shortDescription:
       "Graph pathfinding library for a courier network with safe/unsafe vertices: path existence (BFS), fastest path by weight via an oasis (Dijkstra), and most direct path by hops via any oasis. Standard-library only, PEP 585 type hints.",
@@ -154,7 +154,7 @@ export const projects: Project[] = [
     id: "dynamic-topk-tree",
     name: "Dynamic Top-k Tree",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Aug 2024 – Sep 2024",
     techStack: ["Python 3.9+", "Data structures", "Tree algorithms", "unittest", "OOP", "Standard library only"],
     shortDescription:
       "Dynamic tree that maintains the sum of the top-k gold values in every subtree under structural updates: put (add child), move_subtree, melt_subtree. Configurable k per node; automatic k_sum propagation. No external dependencies.",
@@ -173,7 +173,7 @@ export const projects: Project[] = [
     id: "heuristic-search-engine",
     name: "Heuristic Search Engine",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Mar 2025 – Apr 2025",
     techStack: ["Python 3.6+", "BFS", "DFS", "IDS", "A*", "Greedy", "Hill Climbing", "Standard library only"],
     shortDescription:
       "State-space search framework over binary strings: six algorithms (BFS, DFS, IDS, Greedy Best-First, A*, Hill Climbing). Flexible input with start, goals, and unsafe states (X wildcards); single CLI entry point; configurable expansion limit.",
@@ -192,7 +192,7 @@ export const projects: Project[] = [
     id: "diabetes-risk-prediction",
     name: "Diabetes Risk Prediction — Pima Dataset",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Apr 2025 – May 2025",
     techStack: ["Python 3.9+", "pandas", "scikit-learn", "Logistic Regression", "StandardScaler", "ML pipeline"],
     shortDescription:
       "ML pipeline for diabetes risk prediction on the Pima Indians dataset: load CSV, 75/25 stratified train/test split, StandardScaler (fit on train only), logistic regression; reports accuracy, precision/recall/F1, and confusion matrix.",
@@ -211,7 +211,7 @@ export const projects: Project[] = [
     id: "stdchip-simulator",
     name: "StdChip Architecture Simulator",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Aug 2025 – Sep 2025",
     techStack: ["Python 3.6+", "Assembler", "Emulator", "Custom ISA", "Standard library only"],
     shortDescription:
       "Custom instruction-set architecture with a two-stage toolchain: assembler (assembly → binary or hex listing) and emulator (load and execute). 11 opcodes, labels, multi-base literals, READ/PUT I/O, CALL subprocess; 256-byte memory, zero dependencies.",
@@ -230,7 +230,7 @@ export const projects: Project[] = [
     id: "trivia-net",
     name: "Trivia.NET — Distributed Trivia Platform",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Sep 2025 – Nov 2025",
     techStack: ["Python 3.8+", "TCP", "JSON", "threading", "selectors", "Optional: Ollama/requests"],
     shortDescription:
       "Multiplayer network trivia: central TCP server, multiple clients. Human, auto (built-in solver), and AI (Ollama) modes. Timed questions (math, Roman numerals, CIDR), live leaderboard, config-driven (server_config.json, client_*.json).",
@@ -239,7 +239,7 @@ export const projects: Project[] = [
       "Clients: CONNECT <host>:<port>; receiver thread; modes you (human input), auto (solver), ai (Ollama API); requests imported only in AI path so you/auto need zero pip installs.",
       "questions.py: math expressions, Roman numerals, usable IPs in subnet, network/broadcast address; config-driven prompts and timing; documented for INFO1113/COMP9003 at University of Sydney.",
     ],
-    link: "https://github.com/bhakthisalimath/Trivia.NET",
+    link: "https://github.com/bhakthisalimath/trivianet-distributed-trivia-platform",
     bookmarkLabel: "Trivia.NET",
     accent: "#2563eb",
     mediaType: "image",
@@ -249,7 +249,7 @@ export const projects: Project[] = [
     id: "bit-state-manager",
     name: "BitStateManager — Naughty Bits CLI",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2024",
+    period: "Feb 2024 – Mar 2024",
     techStack: ["Java", "CLI", "State management", "Parsing"],
     shortDescription:
       "Interactive Java CLI that manages a sequence of bits classified as naughty (1) or good (0). Supports check, change, and exit commands with right-to-left indexing.",
@@ -268,7 +268,7 @@ export const projects: Project[] = [
     id: "moviestore-management",
     name: "MovieStore Management System",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Mar 2024 – Apr 2024",
     techStack: ["Java 17", "Gradle", "OOP", "UML"],
     shortDescription:
       "Java OOP-based movie rental system with inventory tracking, copyright validation (50-year rule), and studio-based querying. Implements Actor, Studio, Movie, and MovieStore from a UML spec.",
@@ -287,7 +287,7 @@ export const projects: Project[] = [
     id: "holiday-planner",
     name: "HolidayPlanner — Flask & SQLAlchemy",
     role: "Solo Developer",
-    period: "Jan 2024 – Dec 2025",
+    period: "Sep 2024 – Oct 2024",
     techStack: ["Python 3.10+", "Flask 3", "SQLAlchemy 2", "Jinja2", "Flask-SocketIO", "SQLite"],
     shortDescription:
       "Full-stack holiday booking web app with sign up/login, browse and filter packages, cart, checkout, and admin CRUD. Uses Flask, SQLAlchemy, Jinja2 templates, and Flask-SocketIO for real-time updates.",
@@ -305,8 +305,8 @@ export const projects: Project[] = [
   {
     id: "bitesavr",
     name: "BiteSavr — Grocery Price Comparison",
-    role: "Group Project (Contributor)",
-    period: "Jan 2024 – Dec 2025",
+    role: "Hackathon Project (Contributor)",
+    period: "Sep 2025",
     techStack: ["Angular 17", "TypeScript 5.4", "Python 3.8+", "Flask 2.3+", "Flask-CORS", "REST API", "Full-stack"],
     shortDescription:
       "Full-stack web app that compares grocery prices across Aldi, Coles, and Woolworths. Build a basket, see the cheapest option per item and the best single store for your full list, with per-store baskets and missing-item handling.",
@@ -324,8 +324,8 @@ export const projects: Project[] = [
   {
     id: "clueless-wardrobe",
     name: "Clueless — AI-Powered Wardrobe Platform",
-    role: "Solo Developer",
-    period: "Jan 2025 – Dec 2025",
+    role: "Hackathon Project (Contributor)",
+    period: "Nov 2025",
     techStack: ["React 18.3", "TypeScript 5.9", "Vite 5.3", "Supabase 2.56", "Firebase 10.12", "Express 5.1", "Open-Meteo"],
     shortDescription:
       "Full-stack weather-aware outfit generator: get shirt + shorts or dress suggestions based on your location, live weather (Open-Meteo), and your closet stored in Supabase. Firebase Auth, optional AI tagging via Hugging Face FashionBLIP. Built for Clueless Hackathon 2025.",
@@ -344,7 +344,7 @@ export const projects: Project[] = [
     id: "vsas",
     name: "Virtual Scroll Access System (VSAS)",
     role: "Group Project (Contributor)",
-    period: "Jan 2024 – Dec 2025",
+    period: "Aug 2025 – Sep 2025",
     techStack: ["Java 21", "Gradle", "SQLite", "BCrypt", "JUnit 5", "JaCoCo", "Web app"],
     shortDescription:
       "Web-based document management system for uploading, organizing, searching, and downloading PDF scrolls with role-based authentication and admin controls. Includes dashboards, profile management, and download tracking analytics.",
