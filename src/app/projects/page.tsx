@@ -34,7 +34,11 @@ export default function ProjectsPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [stageReady, setStageReady] = useState(false);
   const [viewMode, setViewMode] = useState<"scatter" | "timeline">("scatter");
-  const [scatterExpanded, setScatterExpanded] = useState(false);
+  const [scatterExpanded, setScatterExpanded] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.get("expanded") === "1";
+  });
   const detailRef = useRef<HTMLDivElement | null>(null);
   const folderRef = useRef<HTMLElement | null>(null);
 
@@ -49,17 +53,21 @@ export default function ProjectsPage() {
       setViewMode(requestedView);
     }
 
-    if (shouldExpand) {
+    if (requested) {
+      const project = localizedProjects.find((p) => p.id === requested);
+      if (project && !selectedId) {
+        // Use the same path as clicking a card so detail scroll + media state behave identically.
+        handlePick(project);
+      }
+    }
+
+    if (shouldExpand && !scatterExpanded) {
       setScatterExpanded(true);
       requestAnimationFrame(() => {
         folderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
-
-    if (requested && localizedProjects.some((p) => p.id === requested)) {
-      setSelectedId(requested);
-    }
-  }, [localizedProjects]);
+  }, [localizedProjects, scatterExpanded, selectedId]);
 
   useEffect(() => {
     if (!localizedProjects.some((p) => p.id === selectedId)) {

@@ -344,8 +344,12 @@ export default function HomePage() {
               key={project.id}
               type="button"
               className="reveal-on-scroll home-project-card"
-              onClick={() => router.push("/projects?expanded=1&view=scatter")}
-              aria-label={`Open Projects (expanded view)`}
+              onClick={() =>
+                router.push(
+                  `/projects?expanded=1&view=scatter&selected=${project.id}`
+                )
+              }
+              aria-label={`Open ${project.name} in Projects (expanded view)`}
             >
               <ProjectCard
                 project={project}
