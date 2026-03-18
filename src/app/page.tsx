@@ -3,8 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProjectCard from "@/components/ProjectCard";
-import { projects } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 import { homeCopy } from "@/data/home";
+import projectGalleriesAuto from "@/data/projectGalleries.auto.json";
 
 const EMAIL_ADDRESS = "bhakthisalimath@gmail.com";
 const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL_ADDRESS)}`;
@@ -32,6 +33,14 @@ export default function HomePage() {
     () => projects.filter((p) => !!p.link && p.link.includes("github.com")),
     []
   );
+
+  const galleries = projectGalleriesAuto as Record<string, string[]>;
+
+  const featuredProjects = useMemo(() => {
+    return homeCopy.featuredProjects.projectIds
+      .map((id) => projects.find((p) => p.id === id))
+      .filter((p): p is Project => p != null);
+  }, []);
 
   const scrollToAbout = useCallback(() => {
     document.getElementById("home-projects")?.scrollIntoView({
@@ -313,16 +322,24 @@ export default function HomePage() {
         className="home-section home-section--projects reveal-on-scroll"
       >
         <header className="home-section-header">
-          <h2 className="home-section-title">
-            {content.featuredProjects.title}
-          </h2>
+          <div className="home-section-header-row">
+            <h2 className="home-section-title">
+              {content.featuredProjects.title}
+            </h2>
+            <a
+              href="/projects"
+              className="home-section-link home-section-link--primary"
+            >
+              {content.featuredProjects.cta} →
+            </a>
+          </div>
           <p className="home-section-subtitle">
             {content.featuredProjects.subtitle}
           </p>
         </header>
 
         <div className="home-projects-grid">
-          {projects.slice(0, 3).map((project) => (
+          {featuredProjects.map((project) => (
             <button
               key={project.id}
               type="button"
@@ -335,14 +352,53 @@ export default function HomePage() {
                 linkLabel="View on GitHub →"
                 compact
                 hideLink
+                thumbnailSrc={galleries[project.id]?.[0] ?? null}
               />
             </button>
           ))}
         </div>
 
+      </section>
+
+      <section
+        id="linkedin"
+        className="home-section home-section--linkedin reveal-on-scroll"
+      >
+        <header className="home-section-header">
+          <h2 className="home-section-title">{content.linkedin.title}</h2>
+          <p className="home-section-subtitle">
+            {content.linkedin.subtitle}
+          </p>
+        </header>
+
+        <div className="linkedin-embeds">
+          {content.linkedin.posts.map((post) => {
+            const embedSrc = post.href.replace(
+              "https://www.linkedin.com/feed/update/",
+              "https://www.linkedin.com/embed/feed/update/"
+            );
+            return (
+              <div key={post.href} className="linkedin-embed">
+                <iframe
+                  src={`${embedSrc}?collapsed=1`}
+                  height="628"
+                  width="100%"
+                  frameBorder="0"
+                  allowFullScreen
+                  title={post.title}
+                />
+              </div>
+            );
+          })}
+        </div>
         <div className="home-section-footer">
-          <a href="/projects" className="home-section-link">
-            {content.featuredProjects.cta} →
+          <a
+            href="https://www.linkedin.com/in/bhakthisalimath/"
+            target="_blank"
+            rel="noreferrer"
+            className="home-section-link"
+          >
+            View my profile →
           </a>
         </div>
       </section>
@@ -380,62 +436,6 @@ export default function HomePage() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section
-        id="linkedin"
-        className="home-section home-section--linkedin reveal-on-scroll"
-      >
-        <header className="home-section-header">
-          <h2 className="home-section-title">{content.linkedin.title}</h2>
-          <p className="home-section-subtitle">
-            {content.linkedin.subtitle}
-          </p>
-        </header>
-
-        <div className="linkedin-embeds">
-          {/* Latest → oldest */}
-          <div className="linkedin-embed">
-            <iframe
-              src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7391697614162812928?collapsed=1"
-              height="628"
-              width="100%"
-              frameBorder="0"
-              allowFullScreen
-              title="LinkedIn post 7391697614162812928"
-            />
-          </div>
-          <div className="linkedin-embed">
-            <iframe
-              src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7249947272107450369?collapsed=1"
-              height="628"
-              width="100%"
-              frameBorder="0"
-              allowFullScreen
-              title="LinkedIn post 7249947272107450369"
-            />
-          </div>
-          <div className="linkedin-embed">
-            <iframe
-              src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7220277783887794176?collapsed=1"
-              height="628"
-              width="100%"
-              frameBorder="0"
-              allowFullScreen
-              title="LinkedIn post 7220277783887794176"
-            />
-          </div>
-        </div>
-        <div className="home-section-footer">
-          <a
-            href="https://www.linkedin.com/in/bhakthisalimath/"
-            target="_blank"
-            rel="noreferrer"
-            className="home-section-link"
-          >
-            View my profile →
-          </a>
         </div>
       </section>
 

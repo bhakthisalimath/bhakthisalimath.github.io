@@ -159,6 +159,113 @@ The live site will be at `https://bhakthisalimath.github.io` (or your custom dom
 
 ---
 
+## Content Cheat Sheet (Projects, Featured, LinkedIn)
+
+### 1. Add a new project
+
+**Where:** `src/data/projects.ts`
+
+1. **Create the project entry**
+   - Add a new object to the exported `projects: Project[] = [ ... ]` array.
+   - Required fields:
+     - `id`: short, URL-safe id (e.g. `"bitesavr"`, `"clueless-wardrobe"`).
+     - `name`: full project title.
+     - `role`: e.g. `"Solo Developer"` or `"Hackathon Project (Contributor)"`.
+     - `period`: e.g. `"Sep 2025"` or `"Mar 2024 – Apr 2024"`.
+     - `techStack`: string array of key technologies.
+     - `shortDescription`: 1–2 sentence summary.
+     - `highlights`: list of bullet-point strings.
+   - Recommended optional fields:
+     - `link`: GitHub or live demo URL.
+     - `bookmarkLabel`: short label used in project UIs and sorting.
+     - `accent`: hex colour for that project (card accent).
+     - `mediaType`, `mediaLabel`: for the detail view.
+
+2. **Hackathon-specific fields (for event info button and gold styling)**
+   - Make sure `role` contains the word **"Hackathon"** somewhere, e.g.:
+     - `"Hackathon Project (Contributor)"` or `"Hackathon Project (Team)"`.
+     - This automatically enables the **gold hackathon styling** on the `/projects` gallery cards.
+   - Add the event link and label so the detail view shows a button:
+     - `hackathonEventUrl`: URL to Devpost / event / challenge page.
+     - `hackathonEventLabel`: button text, e.g. `"Devpost — full submission & try-it info"`.
+
+3. **Optional: YouTube demo**
+   - Easiest: add a mapping to `src/data/projectYoutubeDemos.ts`:
+     - Key: the project’s `id`.
+     - Value: a full YouTube URL or video id.
+   - Or: set `demoYoutubeUrl` directly on the project entry.
+
+4. **Optional: image gallery for the project detail page**
+   - Place images under `public/projects/<project-id>/` named `image1.jpeg`, `image2.jpeg`, etc.
+   - Run:
+     - `npm run sync:project-assets`
+   - This updates `src/data/projectGalleries.auto.json` so the `/projects` detail page can show those images.
+
+5. **Verify**
+   - Run `npm run dev` and open:
+     - `/projects` to see the project in scatter/timeline.
+     - `/projects?selected=<project-id>&expanded=1` to jump straight to it.
+
+### 2. Change featured projects on the home screen
+
+**Where:** `src/data/home.ts`
+
+1. Under `homeCopy.featuredProjects` update:
+
+   ```ts
+   featuredProjects: {
+     title: "Featured Projects",
+     subtitle: "...",
+     cta: "View all projects",
+     projectIds: ["bitesavr", "clueless-wardrobe", "bytelove-syncs"],
+   },
+   ```
+
+2. Replace `projectIds` with the `id`s from `src/data/projects.ts` that you want featured, in order:
+   - Example:
+
+   ```ts
+   projectIds: ["checkers-java", "inkball", "holiday-planner"],
+   ```
+
+3. Thumbnails:
+   - If a project has `public/projects/<id>/image1.jpeg` (and you’ve run `npm run sync:project-assets`), the home cards will automatically show that as a small preview image.
+   - If no `image1` exists for that id, the card still renders, just without a thumbnail.
+
+### 3. Change featured LinkedIn posts on the home screen
+
+**Where:** `src/data/home.ts`
+
+1. In `home.ts`, update the `linkedin.posts` array:
+
+   ```ts
+   linkedin: {
+     title: "From LinkedIn",
+     subtitle: "...",
+     /** Update these to feature different embedded posts on the home page. */
+     posts: [
+       {
+         title: "My LinkedIn post title",
+         href: "https://www.linkedin.com/feed/update/urn:li:ugcPost:XXXXXXXXXXXX",
+         tag: "Optional tag text",
+       },
+       // add/remove/reorder posts here
+     ],
+   },
+   ```
+
+   - Get `href` by copying the **post URL** from LinkedIn (`.../feed/update/urn:li:ugcPost:...`).
+   - `title` is used for iframe `title` (accessibility) and for your own reference.
+   - `tag` is metadata only (safe to change; not required).
+
+2. The LinkedIn section on the home page automatically embeds posts by mapping over `content.linkedin.posts` and converting each `href` into an embed URL, so **no React code changes** are needed when you update this list.
+
+3. To feature different posts, just:
+   - Replace the objects in `posts` with new `title` + `href` values.
+   - Reorder them to change display order.
+
+---
+
 ## Author & Contact
 
 **Bhakthi Salimath**  

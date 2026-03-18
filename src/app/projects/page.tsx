@@ -1,14 +1,35 @@
 "use client";
 
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ScatterView } from "@/components/projects/ScatterView";
 import { TimelineView } from "@/components/projects/TimelineView";
 import { Project, projects, projectsCopy } from "@/data/projects";
+import { getDemoYoutubeIdForProject } from "@/data/projectYoutubeDemos";
+import projectGalleriesAuto from "@/data/projectGalleries.auto.json";
 
 const fallbackAccent = "#8b5cf6";
 
+function displayNameForSort(p: Project) {
+  return (p.bookmarkLabel ?? p.name).trim();
+}
+
 export default function ProjectsPage() {
-  const localizedProjects = useMemo(() => projects, []);
+  const localizedProjects = useMemo(
+    () =>
+      [...projects].sort((a, b) =>
+        displayNameForSort(a).localeCompare(displayNameForSort(b), undefined, {
+          sensitivity: "base",
+        })
+      ),
+    []
+  );
   const [projectSearch, setProjectSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [stageReady, setStageReady] = useState(false);
@@ -91,6 +112,32 @@ export default function ProjectsPage() {
     : null;
   const copy = projectsCopy;
   const accent = selectedProject?.accent ?? fallbackAccent;
+
+  const youtubeId = selectedProject
+    ? getDemoYoutubeIdForProject(selectedProject)
+    : null;
+  const folderGallery =
+    selectedProject?.id &&
+    (projectGalleriesAuto as Record<string, string[]>)[selectedProject.id]
+      ? (projectGalleriesAuto as Record<string, string[]>)[selectedProject.id]
+      : [];
+
+  /** Main viewer: YouTube demo or expanded gallery image (by index). */
+  const [mediaStage, setMediaStage] = useState<"youtube" | number>("youtube");
+
+  const galleryFocusIndex =
+    typeof mediaStage === "number" &&
+    mediaStage >= 0 &&
+    mediaStage < folderGallery.length
+      ? mediaStage
+      : 0;
+
+  useLayoutEffect(() => {
+    if (!selectedProject?.id) return;
+    setMediaStage(
+      youtubeId ? "youtube" : folderGallery.length > 0 ? 0 : "youtube"
+    );
+  }, [selectedProject?.id, youtubeId, folderGallery.length]);
 
   useEffect(() => {
     if (!selectedProject) return;
@@ -266,16 +313,30 @@ export default function ProjectsPage() {
                   </span>
                 ))}
               </div>
-              {selectedProject.link && (
-                <a
-                  href={selectedProject.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="project-link"
-                >
-                  View on GitHub →
-                </a>
-              )}
+              <div className="project-links-row">
+                {selectedProject.link && (
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link"
+                  >
+                    {selectedProject.linkLabel ?? "View on GitHub →"}
+                  </a>
+                )}
+                {selectedProject.hackathonEventUrl && (
+                  <a
+                    href={selectedProject.hackathonEventUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link project-link--event"
+                  >
+                    {selectedProject.hackathonEventLabel ??
+                      "Hackathon event details"}{" "}
+                    →
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
@@ -283,9 +344,15 @@ export default function ProjectsPage() {
             <div className="project-media-frame">
               <div className="project-media-header">
                 <span className="project-media-pill">
-                  {selectedProject?.mediaType === "video"
-                    ? "Project video"
-                    : "Project image"}
+                  {youtubeId && folderGallery.length > 0
+                    ? "Demo & gallery"
+                    : youtubeId
+                      ? "Demo video"
+                      : folderGallery.length > 0
+                        ? "Gallery"
+                        : selectedProject?.mediaType === "video"
+                          ? "Project video"
+                          : "Project image"}
                 </span>
                 <span className="project-media-label">
                   {selectedProject?.mediaLabel ??
@@ -294,9 +361,149 @@ export default function ProjectsPage() {
                 </span>
               </div>
 
-              <div className="project-media-display">
-                {selectedProject?.mediaType === "video" &&
-                selectedProject.mediaSrc ? (
+              <div
+                className={
+                  "project-media-display" +
+                  (youtubeId || folderGallery.length > 0
+                    ? " project-media-display--rich"
+                    : "")
+                }
+              >
+                {youtubeId && folderGallery.length > 0 ? (
+                  <>
+                    <div className="project-youtube-wrap project-main-stage">
+                      {mediaStage === "youtube" ? (
+                        <iframe
+                          key={`${selectedProject.id}-yt`}
+                          title={`${selectedProject.name} demo`}
+                          className="project-youtube-iframe"
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <img
+                          src={folderGallery[galleryFocusIndex]}
+                          alt={`${selectedProject.name} screenshot ${galleryFocusIndex + 1}`}
+                          className="project-stage-expanded-img"
+                        />
+                      )}
+                    </div>
+                    {mediaStage === "youtube" && (
+                      <p className="project-youtube-hint">
+                        Plays automatically (muted). Tap a photo below to expand
+                        it here — use <strong>Demo video</strong> to return.
+                      </p>
+                    )}
+                    {mediaStage !== "youtube" && (
+                      <p className="project-youtube-hint">
+                        Expanded view. Select <strong>Demo video</strong> or
+                        another thumbnail below.
+                      </p>
+                    )}
+                    <div
+                      className="project-media-strip"
+                      role="tablist"
+                      aria-label="Demo video and screenshots"
+                    >
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={mediaStage === "youtube"}
+                        className={
+                          "project-strip-demo" +
+                          (mediaStage === "youtube"
+                            ? " project-strip-item--active"
+                            : "")
+                        }
+                        onClick={() => setMediaStage("youtube")}
+                      >
+                        <span className="project-strip-demo-icon" aria-hidden>
+                          ▶
+                        </span>
+                        Demo video
+                      </button>
+                      {folderGallery.map((src, i) => (
+                        <button
+                          key={`${src}-${i}`}
+                          type="button"
+                          role="tab"
+                          aria-selected={mediaStage === i}
+                          className={
+                            "project-strip-thumb" +
+                            (mediaStage === i
+                              ? " project-strip-item--active"
+                              : "")
+                          }
+                          onClick={() => setMediaStage(i)}
+                          aria-label={`Screenshot ${i + 1}`}
+                        >
+                          <img src={src} alt="" loading="lazy" />
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                ) : youtubeId ? (
+                  <>
+                    <div className="project-youtube-wrap">
+                      <iframe
+                        key={selectedProject.id}
+                        title={`${selectedProject.name} demo`}
+                        className="project-youtube-iframe"
+                        src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                    <p className="project-youtube-hint">
+                      Plays automatically (muted). Use the player to play, pause,
+                      and unmute.
+                    </p>
+                  </>
+                ) : folderGallery.length > 1 ? (
+                  <>
+                    <div className="project-youtube-wrap project-main-stage">
+                      <img
+                        src={folderGallery[galleryFocusIndex]}
+                        alt={`${selectedProject.name} ${galleryFocusIndex + 1}`}
+                        className="project-stage-expanded-img"
+                      />
+                    </div>
+                    <div
+                      className="project-media-strip"
+                      role="tablist"
+                      aria-label="Screenshots"
+                    >
+                      {folderGallery.map((src, i) => (
+                        <button
+                          key={`${src}-${i}`}
+                          type="button"
+                          role="tab"
+                          aria-selected={mediaStage === i}
+                          className={
+                            "project-strip-thumb project-strip-thumb--solo" +
+                            (mediaStage === i
+                              ? " project-strip-item--active"
+                              : "")
+                          }
+                          onClick={() => setMediaStage(i)}
+                          aria-label={`Image ${i + 1}`}
+                        >
+                          <img src={src} alt="" loading="lazy" />
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                ) : folderGallery.length === 1 ? (
+                  <div className="project-youtube-wrap project-main-stage">
+                    <img
+                      src={folderGallery[0]}
+                      alt={selectedProject.name}
+                      className="project-stage-expanded-img"
+                    />
+                  </div>
+                ) : selectedProject?.mediaType === "video" &&
+                  selectedProject.mediaSrc ? (
                   <video
                     className="project-media-asset"
                     src={selectedProject.mediaSrc}
@@ -334,9 +541,13 @@ export default function ProjectsPage() {
               </div>
 
               <p className="project-media-caption">
-                {selectedProject?.mediaLabel ??
-                  selectedProject?.shortDescription ??
-                  "Choose a project to preview its image or video."}
+                {youtubeId
+                  ? "Embedded demo — no need to leave this page."
+                  : folderGallery.length > 0
+                    ? "Screenshot collage."
+                    : selectedProject?.mediaLabel ??
+                      selectedProject?.shortDescription ??
+                      "Choose a project to preview its image or video."}
               </p>
             </div>
           </div>

@@ -6,6 +6,8 @@ type Props = {
   compact?: boolean;
   linkLabel?: string;
   hideLink?: boolean;
+  /** e.g. first gallery image (image1) for home featured cards */
+  thumbnailSrc?: string | null;
 };
 
 export default function ProjectCard({
@@ -13,9 +15,23 @@ export default function ProjectCard({
   compact,
   linkLabel,
   hideLink,
+  thumbnailSrc,
 }: Props) {
   return (
-    <div className="project-card">
+    <div
+      className={`project-card${thumbnailSrc ? " project-card--with-thumb" : ""}`}
+    >
+      {thumbnailSrc ? (
+        <div className="project-card-thumb-wrap">
+          <img
+            src={thumbnailSrc}
+            alt={`${project.bookmarkLabel ?? project.name} preview`}
+            className="project-card-thumb"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      ) : null}
       <div className="project-card-header">
         <h3 className="project-card-title">{project.name}</h3>
         <span className="project-card-period">{project.period}</span>
@@ -56,7 +72,7 @@ export default function ProjectCard({
           rel="noreferrer"
           className="project-card-link"
         >
-          {linkLabel ?? "View on GitHub →"}
+          {linkLabel ?? project.linkLabel ?? "View on GitHub →"}
         </a>
       )}
     </div>

@@ -243,6 +243,156 @@
     pointer-events: none;
   }
 
+  .timeline-card.timeline-card--hackathon {
+    overflow: hidden;
+    border-width: 2px;
+    border-color: #b8860b;
+    background: linear-gradient(
+      148deg,
+      #fffef5 0%,
+      #f8e8b8 22%,
+      #e6c04a 42%,
+      #c9a227 52%,
+      #f0d878 68%,
+      #d4af37 88%,
+      #a67c00 100%
+    );
+    background-size: 180% 180%;
+    color: #3d2e0a;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 -1px 0 rgba(100, 70, 10, 0.12),
+      0 10px 36px rgba(180, 120, 20, 0.28),
+      0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .timeline-card.timeline-card--hackathon::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      rgba(255, 255, 255, 0.45) 48%,
+      rgba(255, 252, 220, 0.2) 52%,
+      transparent 58%
+    );
+    transform: translateX(-30%) rotate(8deg);
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.35s ease, transform 0.45s ease;
+    z-index: 0;
+  }
+
+  .timeline-card.timeline-card--hackathon:hover::before {
+    opacity: 0.8;
+    transform: translateX(10%) rotate(8deg);
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-body,
+  .timeline-card.timeline-card--hackathon .timeline-meta,
+  .timeline-card.timeline-card--hackathon .timeline-index {
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-title {
+    color: #1f1608;
+    font-weight: 700;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-meta {
+    color: #5c4510;
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-role {
+    color: #6b4a12;
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-tag {
+    background: rgba(255, 255, 255, 0.42);
+    border-color: rgba(139, 105, 20, 0.35);
+    color: #3d2e0a;
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-dot {
+    background: linear-gradient(145deg, #fff8dc, #c9a227);
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.7);
+  }
+
+  .timeline-card.timeline-card--hackathon .timeline-index {
+    color: #6b5420;
+  }
+
+  .timeline-card.timeline-card--hackathon:hover,
+  .timeline-card.timeline-card--hackathon.is-active {
+    border-color: #d4af37;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.75),
+      0 16px 48px rgba(200, 150, 40, 0.38),
+      0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon {
+    border-color: #d4af37;
+    color: #f5ecd4;
+    background: linear-gradient(
+      148deg,
+      #2a2412 0%,
+      #4a3d18 25%,
+      #6b5420 45%,
+      #8b6914 55%,
+      #5c4a16 72%,
+      #3d3318 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 220, 150, 0.12),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.35),
+      0 10px 40px rgba(212, 175, 55, 0.18),
+      0 4px 14px rgba(0, 0, 0, 0.45);
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon::before {
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 230, 160, 0.18) 50%,
+      transparent 60%
+    );
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon .timeline-title {
+    color: #fff8e1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon .timeline-meta {
+    color: #d4c090;
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon .timeline-role {
+    color: #e8d4a0;
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon .timeline-tag {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(212, 175, 55, 0.35);
+    color: #f0e4c8;
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon .timeline-index {
+    color: #e8c96b;
+  }
+
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon:hover,
+  [data-theme="dark"] .timeline-card.timeline-card--hackathon.is-active {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 220, 150, 0.15),
+      0 18px 52px rgba(212, 175, 55, 0.22),
+      0 8px 20px rgba(0, 0, 0, 0.5);
+  }
+
   @keyframes timeline-section-reveal {
     0% {
       opacity: 0;

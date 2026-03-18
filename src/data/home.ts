@@ -31,6 +31,8 @@ export const homeCopy: {
     title: string;
     subtitle: string;
     cta: string;
+    /** Shown on home in order; each should have `public/projects/{id}/image1.*` synced to galleries */
+    projectIds: string[];
   };
   linkedin: {
     title: string;
@@ -121,37 +123,39 @@ export const homeCopy: {
     ],
   },
   featuredProjects: {
-    title: "Projects",
+    title: "Featured Projects",
     subtitle:
       "Selected projects involving machine learning, algorithms, and real-world software applications.",
     cta: "View all projects",
+    projectIds: ["bitesavr", "clueless-wardrobe", "bytelove-syncs"],
   },
   linkedin: {
     title: "From LinkedIn",
     subtitle:
       "A few posts that give extra context and reflections beyond the code.",
+    /** Update these to feature different embedded posts on the home page. */
     posts: [
       {
         title: 'Clueless — SYNCS Hack 2025 "Cities of the Future"',
-        href: "https://www.linkedin.com/in/bhakthisalimath/",
+        href: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7391697614162812928",
         tag: "Hackathon · Sustainability",
       },
       {
         title:
           "BiteSavr — WiT LaunchPad Hackathon (2nd place, everyday impact)",
-        href: "https://www.linkedin.com/in/bhakthisalimath/",
+        href: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7249947272107450369",
         tag: "Hackathon · Product",
       },
       {
         title:
           "GDSC × ENGO Problem Solving Challenge (1st place, UN SDGs)",
-        href: "https://www.linkedin.com/in/bhakthisalimath/",
+        href: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7220277783887794176",
         tag: "Leadership · SDGs",
       },
     ],
   },
   github: {
-    title: "From GitHub",
+    title: "Links to my GitHub repositories",
     subtitle: "A quick repository view of my work — open any repo for code and docs.",
     cta: "View GitHub profile",
   },

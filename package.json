@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync:project-assets": "node scripts/sync-project-asset-folders.mjs",
+    "prebuild": "npm run sync:project-assets",
+    "predev": "npm run sync:project-assets",
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",

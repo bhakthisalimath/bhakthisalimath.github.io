@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { Project } from "@/data/projects";
+import { isHackathonProject, type Project } from "@/data/projects";
 import { useProjectScale } from "./useProjectScale";
 
 const monthNames = [
@@ -397,7 +397,9 @@ export function TimelineView({
                     onClick={() => onSelect(project)}
                     className={`timeline-card ${
                       selectedId === project.id ? "is-active" : ""
-                    } ${visibleIds.has(project.id) ? "is-visible" : ""}`}
+                    } ${visibleIds.has(project.id) ? "is-visible" : ""} ${
+                      isHackathonProject(project) ? "timeline-card--hackathon" : ""
+                    }`}
                     onMouseEnter={() => setHoveredId(project.id)}
                     onMouseLeave={() => setHoveredId(null)}
                     style={

@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { Project } from "@/data/projects";
+import { isHackathonProject, type Project } from "@/data/projects";
 import { useProjectScale } from "./useProjectScale";
 import { useViewportSize } from "./useViewportSize";
 
@@ -252,7 +252,7 @@ export function ScatterView({
             }
             className={`scatter-card ${isUnpacked ? "is-open" : ""} ${
               selectedId === project.id ? "is-active" : ""
-            }`}
+            } ${isHackathonProject(project) ? "scatter-card--hackathon" : ""}`}
             data-water-target
           >
             <div className="scatter-card-top">

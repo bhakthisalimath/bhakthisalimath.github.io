@@ -1,0 +1,22 @@
+{
+  "bitesavr": [
+    "/projects/bitesavr/image1.jpeg",
+    "/projects/bitesavr/image2.jpeg",
+    "/projects/bitesavr/image3.jpeg",
+    "/projects/bitesavr/image4.jpeg"
+  ],
+  "clueless-wardrobe": [
+    "/projects/clueless-wardrobe/image1.jpeg",
+    "/projects/clueless-wardrobe/image2.jpeg",
+    "/projects/clueless-wardrobe/image3.jpeg",
+    "/projects/clueless-wardrobe/image4.jpeg"
+  ],
+  "bytelove-syncs": [
+    "/projects/bytelove-syncs/image1.jpeg",
+    "/projects/bytelove-syncs/image2.jpeg",
+    "/projects/bytelove-syncs/image3.jpeg",
+    "/projects/bytelove-syncs/image4.jpeg",
+    "/projects/bytelove-syncs/image5.jpeg",
+    "/projects/bytelove-syncs/image6.jpeg"
+  ]
+}

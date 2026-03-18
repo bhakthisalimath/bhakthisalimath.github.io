@@ -8,13 +8,58 @@ export type Project = {
   shortDescription: string;
   highlights: string[];
   link?: string;
+  /** CTA label for `link` (default: View on GitHub) */
+  linkLabel?: string;
   bookmarkLabel?: string;
   accent?: string;
   mediaType?: "image" | "video";
   mediaLabel?: string;
   mediaSrc?: string;
   mediaPoster?: string;
+  /**
+   * Optional YouTube URL on this project (overrides `projectYoutubeDemos.ts`).
+   * Easiest: add a line in `src/data/projectYoutubeDemos.ts` instead.
+   */
+  demoYoutubeUrl?: string;
+  /** Hackathon / event info (e.g. org README) — shown only when this project is selected */
+  hackathonEventUrl?: string;
+  hackathonEventLabel?: string;
 };
+
+/** True for hackathon entries — gold metallic styling in project gallery views. */
+export function isHackathonProject(project: Project): boolean {
+  return /\bhackathon\b/i.test(project.role);
+}
+
+/** Resolve a YouTube video id for embed URLs. */
+export function getYoutubeVideoId(url: string): string | null {
+  const u = url.trim();
+  if (!u) return null;
+  if (/^[a-zA-Z0-9_-]{11}$/.test(u)) return u;
+  try {
+    const parsed = new URL(u, "https://youtube.com");
+    const host = parsed.hostname.replace(/^www\./, "");
+    if (host === "youtu.be") {
+      const id = parsed.pathname.split("/").filter(Boolean)[0];
+      return id && /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
+    }
+    if (host.includes("youtube.com")) {
+      const v = parsed.searchParams.get("v");
+      if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
+      const m = parsed.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+      if (m) return m[1];
+      const m2 = parsed.pathname.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
+      if (m2) return m2[1];
+    }
+  } catch {
+    /* fall through */
+  }
+  const watch = u.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  if (watch) return watch[1];
+  const short = u.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (short) return short[1];
+  return null;
+}
 
 export const projects: Project[] = [
   {
@@ -307,6 +352,8 @@ export const projects: Project[] = [
     name: "BiteSavr — Grocery Price Comparison",
     role: "Hackathon Project (Contributor)",
     period: "Sep 2025",
+    hackathonEventUrl: "https://github.com/witusyd-LaunchPad-2024",
+    hackathonEventLabel: "WiT LaunchPad 2024 — event details",
     techStack: ["Angular 17", "TypeScript 5.4", "Python 3.8+", "Flask 2.3+", "Flask-CORS", "REST API", "Full-stack"],
     shortDescription:
       "Full-stack web app that compares grocery prices across Aldi, Coles, and Woolworths. Build a basket, see the cheapest option per item and the best single store for your full list, with per-store baskets and missing-item handling.",
@@ -318,14 +365,15 @@ export const projects: Project[] = [
     link: "https://github.com/bhakthisalimath/bitesavr-grocery-price-comparison",
     bookmarkLabel: "BiteSavr",
     accent: "#22c55e",
-    mediaType: "image",
-    mediaLabel: "BiteSavr grocery comparison",
+    mediaLabel: "BiteSavr demo video",
   },
   {
     id: "clueless-wardrobe",
     name: "Clueless — AI-Powered Wardrobe Platform",
     role: "Hackathon Project (Contributor)",
     period: "Nov 2025",
+    hackathonEventUrl: "https://devpost.com/software/clueless-9tms2f",
+    hackathonEventLabel: "Devpost — full submission & try-it info",
     techStack: ["React 18.3", "TypeScript 5.9", "Vite 5.3", "Supabase 2.56", "Firebase 10.12", "Express 5.1", "Open-Meteo"],
     shortDescription:
       "Full-stack weather-aware outfit generator: get shirt + shorts or dress suggestions based on your location, live weather (Open-Meteo), and your closet stored in Supabase. Firebase Auth, optional AI tagging via Hugging Face FashionBLIP. Built for Clueless Hackathon 2025.",
@@ -339,6 +387,28 @@ export const projects: Project[] = [
     accent: "#ec4899",
     mediaType: "image",
     mediaLabel: "Clueless wardrobe outfit generator",
+  },
+  {
+    id: "bytelove-syncs",
+    name: "Byte Love — Dating & Friendship for CS Folks",
+    role: "Hackathon Project (Team)",
+    period: "Oct 2024",
+    hackathonEventUrl: "https://lnkd.in/g6cf3CPp",
+    hackathonEventLabel: "Devpost — full submission & try-it info",
+    techStack: ["Swift", "SwiftUI", "Xcode", "iOS", "Git", "Hackathon"],
+    shortDescription:
+      "Tired of normies? ByteLove is for CS people who embrace quirks—sign-up goes deeper with a CS-stereotype questionnaire and “weirdness points” so you can find others who match your energy. Built at SYNCS (software that brings people together).",
+    highlights: [
+      "Inspiration: push back on negative CS stereotypes and help socially awkward students connect with like-minded peers and grow social skills—dating and friendship, not just another swipe app.",
+      "What it does: personality-first flow with a unique questionnaire around CS stereotypes, scored as weirdness points; roadmap for a matching algorithm on personality + shared weirdness for deeper connections.",
+      "How we built it: Xcode + SwiftUI with the iPhone simulator for live UI iteration; MVP shipped sign-up plus the full weirdness questionnaire—Swift learned largely from scratch under the 24-hour clock.",
+      "Challenges & wins: polished UI, working forms/buttons, Swift ramp-up, and team task-splitting; proud of rapid Swift uptake, simulator-driven testing, Git-based collaboration, and a cohesive MVP.",
+      "Learned & next: UI, splash screens, app architecture, and UX polish; next up—a chatbot to practice social skills, smarter compatibility matching, and eventually expanding beyond CS (see Devpost for try-it / uni Git paths).",
+    ],
+    link: "https://github.com/bhakthisalimath/Byte_Love",
+    bookmarkLabel: "ByteLove",
+    accent: "#f43f5e",
+    mediaLabel: "Byte Love — SYNCS hackathon",
   },
   {
     id: "vsas",
