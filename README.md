@@ -194,6 +194,7 @@ The live site will be at `https://bhakthisalimath.github.io` (or your custom dom
      - Key: the project’s `id`.
      - Value: a full YouTube URL or video id.
    - Or: set `demoYoutubeUrl` directly on the project entry.
+   - **Two videos** (e.g. elevator pitch + product demo): set `demoYoutubeUrl` to the **product** video and `demoYoutubeSecondaryUrl` to the **elevator pitch** (or swap labels in the UI by which URL you put in each field). The `/projects` detail view shows tabs for both.
 
 4. **Optional: image gallery for the project detail page**
    - Place images under `public/projects/<project-id>/` named `image1.jpeg`, `image2.jpeg`, etc.

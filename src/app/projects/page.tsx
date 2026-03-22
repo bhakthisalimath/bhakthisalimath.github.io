@@ -11,7 +11,10 @@ import {
 import { ScatterView } from "@/components/projects/ScatterView";
 import { TimelineView } from "@/components/projects/TimelineView";
 import { Project, projects, projectsCopy } from "@/data/projects";
-import { getDemoYoutubeIdForProject } from "@/data/projectYoutubeDemos";
+import {
+  getDemoYoutubeIdForProject,
+  getDemoYoutubeSecondaryIdForProject,
+} from "@/data/projectYoutubeDemos";
 import projectGalleriesAuto from "@/data/projectGalleries.auto.json";
 
 const fallbackAccent = "#8b5cf6";
@@ -124,14 +127,20 @@ export default function ProjectsPage() {
   const youtubeId = selectedProject
     ? getDemoYoutubeIdForProject(selectedProject)
     : null;
+  const youtubeSecondaryId = selectedProject
+    ? getDemoYoutubeSecondaryIdForProject(selectedProject)
+    : null;
+  const hasDualYoutube = Boolean(youtubeId && youtubeSecondaryId);
   const folderGallery =
     selectedProject?.id &&
     (projectGalleriesAuto as Record<string, string[]>)[selectedProject.id]
       ? (projectGalleriesAuto as Record<string, string[]>)[selectedProject.id]
       : [];
 
-  /** Main viewer: YouTube demo or expanded gallery image (by index). */
-  const [mediaStage, setMediaStage] = useState<"youtube" | number>("youtube");
+  /** Main viewer: YouTube demo(s) or expanded gallery image (by index). */
+  const [mediaStage, setMediaStage] = useState<
+    "youtube" | "youtube2" | number
+  >("youtube");
 
   const galleryFocusIndex =
     typeof mediaStage === "number" &&
@@ -139,6 +148,11 @@ export default function ProjectsPage() {
     mediaStage < folderGallery.length
       ? mediaStage
       : 0;
+
+  const displayYoutubeId =
+    mediaStage === "youtube2" && youtubeSecondaryId
+      ? youtubeSecondaryId
+      : youtubeId;
 
   useLayoutEffect(() => {
     if (!selectedProject?.id) return;
@@ -353,9 +367,13 @@ export default function ProjectsPage() {
               <div className="project-media-header">
                 <span className="project-media-pill">
                   {youtubeId && folderGallery.length > 0
-                    ? "Demo & gallery"
+                    ? hasDualYoutube
+                      ? "Demos & gallery"
+                      : "Demo & gallery"
                     : youtubeId
-                      ? "Demo video"
+                      ? hasDualYoutube
+                        ? "Demo videos"
+                        : "Demo video"
                       : folderGallery.length > 0
                         ? "Gallery"
                         : selectedProject?.mediaType === "video"
@@ -380,12 +398,12 @@ export default function ProjectsPage() {
                 {youtubeId && folderGallery.length > 0 ? (
                   <>
                     <div className="project-youtube-wrap project-main-stage">
-                      {mediaStage === "youtube" ? (
+                      {mediaStage === "youtube" || mediaStage === "youtube2" ? (
                         <iframe
-                          key={`${selectedProject.id}-yt`}
+                          key={`${selectedProject.id}-yt-${mediaStage}`}
                           title={`${selectedProject.name} demo`}
                           className="project-youtube-iframe"
-                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
+                          src={`https://www.youtube.com/embed/${displayYoutubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
                         />
@@ -397,15 +415,15 @@ export default function ProjectsPage() {
                         />
                       )}
                     </div>
-                    {mediaStage === "youtube" && (
+                    {(mediaStage === "youtube" || mediaStage === "youtube2") && (
                       <p className="project-youtube-hint">
                         Plays automatically (muted). Tap a photo below to expand
-                        it here — use <strong>Demo video</strong> to return.
+                        it here — use a <strong>demo</strong> tab to return.
                       </p>
                     )}
-                    {mediaStage !== "youtube" && (
+                    {mediaStage !== "youtube" && mediaStage !== "youtube2" && (
                       <p className="project-youtube-hint">
-                        Expanded view. Select <strong>Demo video</strong> or
+                        Expanded view. Select a <strong>demo</strong> or
                         another thumbnail below.
                       </p>
                     )}
@@ -414,23 +432,68 @@ export default function ProjectsPage() {
                       role="tablist"
                       aria-label="Demo video and screenshots"
                     >
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={mediaStage === "youtube"}
-                        className={
-                          "project-strip-demo" +
-                          (mediaStage === "youtube"
-                            ? " project-strip-item--active"
-                            : "")
-                        }
-                        onClick={() => setMediaStage("youtube")}
-                      >
-                        <span className="project-strip-demo-icon" aria-hidden>
-                          ▶
-                        </span>
-                        Demo video
-                      </button>
+                      {hasDualYoutube ? (
+                        <>
+                          <button
+                            type="button"
+                            role="tab"
+                            aria-selected={mediaStage === "youtube2"}
+                            className={
+                              "project-strip-demo" +
+                              (mediaStage === "youtube2"
+                                ? " project-strip-item--active"
+                                : "")
+                            }
+                            onClick={() => setMediaStage("youtube2")}
+                          >
+                            <span
+                              className="project-strip-demo-icon"
+                              aria-hidden
+                            >
+                              ▶
+                            </span>
+                            Elevator pitch
+                          </button>
+                          <button
+                            type="button"
+                            role="tab"
+                            aria-selected={mediaStage === "youtube"}
+                            className={
+                              "project-strip-demo" +
+                              (mediaStage === "youtube"
+                                ? " project-strip-item--active"
+                                : "")
+                            }
+                            onClick={() => setMediaStage("youtube")}
+                          >
+                            <span
+                              className="project-strip-demo-icon"
+                              aria-hidden
+                            >
+                              ▶
+                            </span>
+                            Product demo
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          role="tab"
+                          aria-selected={mediaStage === "youtube"}
+                          className={
+                            "project-strip-demo" +
+                            (mediaStage === "youtube"
+                              ? " project-strip-item--active"
+                              : "")
+                          }
+                          onClick={() => setMediaStage("youtube")}
+                        >
+                          <span className="project-strip-demo-icon" aria-hidden>
+                            ▶
+                          </span>
+                          Demo video
+                        </button>
+                      )}
                       {folderGallery.map((src, i) => (
                         <button
                           key={`${src}-${i}`}
@@ -452,22 +515,88 @@ export default function ProjectsPage() {
                     </div>
                   </>
                 ) : youtubeId ? (
-                  <>
-                    <div className="project-youtube-wrap">
-                      <iframe
-                        key={selectedProject.id}
-                        title={`${selectedProject.name} demo`}
-                        className="project-youtube-iframe"
-                        src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      />
-                    </div>
-                    <p className="project-youtube-hint">
-                      Plays automatically (muted). Use the player to play, pause,
-                      and unmute.
-                    </p>
-                  </>
+                  hasDualYoutube ? (
+                    <>
+                      <div className="project-youtube-wrap project-main-stage">
+                        <iframe
+                          key={`${selectedProject.id}-yt-${mediaStage}`}
+                          title={`${selectedProject.name} demo`}
+                          className="project-youtube-iframe"
+                          src={`https://www.youtube.com/embed/${displayYoutubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                      <p className="project-youtube-hint">
+                        Plays automatically (muted). Switch between{" "}
+                        <strong>Elevator pitch</strong> and{" "}
+                        <strong>Product demo</strong> below.
+                      </p>
+                      <div
+                        className="project-media-strip"
+                        role="tablist"
+                        aria-label="Demo videos"
+                      >
+                        <button
+                          type="button"
+                          role="tab"
+                          aria-selected={mediaStage === "youtube2"}
+                          className={
+                            "project-strip-demo" +
+                            (mediaStage === "youtube2"
+                              ? " project-strip-item--active"
+                              : "")
+                          }
+                          onClick={() => setMediaStage("youtube2")}
+                        >
+                          <span
+                            className="project-strip-demo-icon"
+                            aria-hidden
+                          >
+                            ▶
+                          </span>
+                          Elevator pitch
+                        </button>
+                        <button
+                          type="button"
+                          role="tab"
+                          aria-selected={mediaStage === "youtube"}
+                          className={
+                            "project-strip-demo" +
+                            (mediaStage === "youtube"
+                              ? " project-strip-item--active"
+                              : "")
+                          }
+                          onClick={() => setMediaStage("youtube")}
+                        >
+                          <span
+                            className="project-strip-demo-icon"
+                            aria-hidden
+                          >
+                            ▶
+                          </span>
+                          Product demo
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="project-youtube-wrap">
+                        <iframe
+                          key={selectedProject.id}
+                          title={`${selectedProject.name} demo`}
+                          className="project-youtube-iframe"
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                      <p className="project-youtube-hint">
+                        Plays automatically (muted). Use the player to play,
+                        pause, and unmute.
+                      </p>
+                    </>
+                  )
                 ) : folderGallery.length > 1 ? (
                   <>
                     <div className="project-youtube-wrap project-main-stage">
@@ -550,7 +679,9 @@ export default function ProjectsPage() {
 
               <p className="project-media-caption">
                 {youtubeId
-                  ? "Embedded demo — no need to leave this page."
+                  ? hasDualYoutube
+                    ? "Embedded demos — switch between pitch and product without leaving this page."
+                    : "Embedded demo — no need to leave this page."
                   : folderGallery.length > 0
                     ? "Screenshot collage."
                     : selectedProject?.mediaLabel ??

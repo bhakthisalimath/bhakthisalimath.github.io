@@ -25,3 +25,12 @@ export function getDemoYoutubeIdForProject(project: Project): string | null {
   if (!url?.trim()) return null;
   return getYoutubeVideoId(url.trim());
 }
+
+/** Second demo (e.g. elevator pitch) when `demoYoutubeSecondaryUrl` is set. */
+export function getDemoYoutubeSecondaryIdForProject(
+  project: Project
+): string | null {
+  const url = project.demoYoutubeSecondaryUrl;
+  if (!url?.trim()) return null;
+  return getYoutubeVideoId(url.trim());
+}

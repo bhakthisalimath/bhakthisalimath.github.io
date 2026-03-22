@@ -21,6 +21,8 @@ export type Project = {
    * Easiest: add a line in `src/data/projectYoutubeDemos.ts` instead.
    */
   demoYoutubeUrl?: string;
+  /** Second YouTube URL (e.g. elevator pitch) when primary is product/demo from `demoYoutubeUrl` or `projectYoutubeDemos.ts` */
+  demoYoutubeSecondaryUrl?: string;
   /** Hackathon / event info (e.g. org README) — shown only when this project is selected */
   hackathonEventUrl?: string;
   hackathonEventLabel?: string;
@@ -409,6 +411,39 @@ export const projects: Project[] = [
     bookmarkLabel: "ByteLove",
     accent: "#f43f5e",
     mediaLabel: "Byte Love — SYNCS hackathon",
+  },
+  {
+    id: "spayce",
+    name: "Spayce — Crowd Stress Detector",
+    role: "Hackathon Project (Contributor)",
+    period: "Mar 2026",
+    hackathonEventUrl: "https://devpost.com/software/spayce-zacrjb",
+    hackathonEventLabel: "Devpost — full submission & try-it info",
+    techStack: [
+      "Python",
+      "Streamlit",
+      "OpenCV",
+      "Ultralytics YOLOv8",
+      "NumPy",
+      "Pandas",
+      "Plotly",
+      "ReportLab",
+      "pytest",
+    ],
+    shortDescription:
+      "Hackathon MVP for proactive venue safety: analyzes crowd video with YOLOv8 tracking, heatmaps, and zone-based analysis; surfaces explainable Crowd Stress Risk (0.0–1.0), short-horizon prediction, and alerts before dangerous crowding. Built at FoundersHack Sydney 2026 (Spayce on GitHub).",
+    highlights: [
+      "Streamlit dashboard: upload crowd video (.mp4, .mov, .avi, .mkv), optional heatmap overlay, zone analysis, trend charts; process sessions and review processed video with density hotspots and exit/bottleneck zones.",
+      "YOLOv8 person detection with ID-based movement tracking; explainable Crowd Stress Risk scoring; short-horizon risk prediction (next 10–20s); anomalies: density spikes, directional conflict, stopped flow near exits, clustering near bottlenecks.",
+      "Operator alerts and recommendations; trend charts (count, speed, risk, predicted risk, zone pressure); PDF-style session report export; optional mocked split-screen multi-camera mode; configurable weights in core/config.py.",
+      "Modular architecture (detector, tracker, heatmap, metrics, risk, anomaly, zones, recommendations, export) for team parallel work; CPU-friendly for hackathon demos; safe handling of empty frames and zero-person scenes.",
+    ],
+    link: "https://github.com/bhakthisalimath/Spayce",
+    bookmarkLabel: "Spayce",
+    accent: "#0ea5e9",
+    mediaLabel: "Spayce — crowd stress intelligence",
+    demoYoutubeUrl: "https://youtu.be/pk9dEeEsyQw",
+    demoYoutubeSecondaryUrl: "https://youtu.be/vDp6WFOk9aE",
   },
   {
     id: "vsas",
