@@ -56,7 +56,7 @@ export const homeCopy: {
     arrowLabel: "Scroll to projects",
     snapshotTitle: "At a glance",
     snapshotLead:
-      "Final-year Bachelor of Advanced Computing (Computer Science) at the University of Sydney — I build and ship projects with clear demos and readable code.",
+      "Third-year Bachelor of Advanced Computing (Computer Science) student at the University of Sydney, completing November 2027 — I build and ship projects with clear demos and readable code.",
     snapshotCards: [
       {
         title: "Shipped",
@@ -108,7 +108,7 @@ export const homeCopy: {
       {
         school: "The University of Sydney",
         degree: "Bachelor of Advanced Computing (Computer Science)",
-        period: "Feb 2024 – Nov 2026",
+        period: "Feb 2024 – Nov 2027",
         details:
           "Coursework includes data structures and algorithms, object-oriented programming, software engineering, and algorithm design.",
         status: "current",
